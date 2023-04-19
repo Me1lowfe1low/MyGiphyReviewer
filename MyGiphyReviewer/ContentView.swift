@@ -2,7 +2,7 @@
 //  ContentView.swift
 //  MyGiphyReviewer
 //
-//  Created by Дмитрий Гордиенко on 19.04.2023.
+//  Created by Dmitrii Gordienko on 19.04.2023.
 //
 
 import SwiftUI
