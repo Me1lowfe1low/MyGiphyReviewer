@@ -6,7 +6,7 @@
 //    dmgordienko@gmail.com 2023
 
 import SwiftUI
-import Kingfisher
+//import Kingfisher
 
 
 struct SingleGifView: View {
