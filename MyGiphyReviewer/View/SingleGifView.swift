@@ -27,7 +27,17 @@ struct SingleGifView: View {
                     RoundedRectangle(cornerRadius: 30)
                         .fill(LinearGradient(colors: [.blue,.cyan,.blue], startPoint: .topLeading, endPoint: .bottomTrailing))
                         .frame(width: geoProxy.size.width, height: geoProxy.size.height, alignment: .center)
-                        .onAppear(perform: { updateGifData() } )
+                        .onAppear(perform: {
+                            gifAPI.fetchOneSampleOfData(urlString: gridItem.gifURL) { data, error in
+                                if let data = data {
+                                    DispatchQueue.main.async {
+                                        gridItem.gifData = data
+                                    }
+                                } else {
+                                    print(error?.localizedDescription)
+                                }
+                            }
+                        })
                 }
             }
         }
@@ -37,7 +47,9 @@ struct SingleGifView: View {
     }
     
     func updateGifData() {
-        print("updating imgage")
+        //print("updating imgage")
+        
+
     }
 }
 

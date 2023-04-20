@@ -26,22 +26,11 @@ class GifViewModel: ObservableObject {
                     print(error.localizedDescription)
                 }
             }
-            print(gridItems)
         }
     }
     
 
 }
-
-
-//                for gridItem in gridItems {
-//
-//                }
-//                self.giphyAPI.fetchOneSampleOfData(urlString: gridItems.gifURL) { data, error in
-//
-//                    gridItems.setData(data!)
-//                    self.gridItems.append(gridItems)
-//                }
 
 struct GifDataStructure: Decodable {
     let data: [dataStructure]
