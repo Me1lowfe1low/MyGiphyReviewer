@@ -51,7 +51,7 @@ struct ExportShareView: View {
             }
         }
     }
-
+    
     func dismissSheet() {
         self.state.toggle()
     }
@@ -65,18 +65,17 @@ struct ExportShareView: View {
     }
     
     func saveGIFToPhotos() {
-        PHPhotoLibrary.shared().performChanges({
-                    let creationRequest = PHAssetCreationRequest.forAsset()
-            creationRequest.addResource(with: .photo, data: gridItem.gifData ?? Data(), options: nil)
-           })
-    }
-}
-
-struct ExportShareView_Previews: PreviewProvider {
-    static var previews: some View {
-        NavigationView {
-            ExportShareView(gridItem: GifGridItem.dataSample, state: .constant(false))
-                .preferredColorScheme(.dark)
+        PHPhotoLibrary.shared().performChanges ({
+            let fileName = gridItem.gifID + ".gif"
+            let url = URL(fileURLWithPath: fileName)
+            PHAssetChangeRequest.creationRequestForAssetFromImage(atFileURL: url)
+        }) { saved, error in
+            if saved {
+                print("Your image was successfully saved")
+            } else {
+                print("issue")
+                print(error?.localizedDescription)
+            }
         }
     }
 }

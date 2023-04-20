@@ -27,6 +27,5 @@ struct ButtonViewModifier_Previews: PreviewProvider {
     static var previews: some View {
         Text("Test sample")
             .modifier(ButtonViewModifier(font: .title2, backgroundColor: .blue))
-        
     }
 }

@@ -7,8 +7,6 @@
 
 import SwiftUI
 
-
-
 struct SingleGifView: View {
     @State var gridItem: GifGridItem
     @StateObject var gifAPI: GIPHYAPIViewModel = GIPHYAPIViewModel()
