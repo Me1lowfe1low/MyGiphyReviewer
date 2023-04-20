@@ -13,7 +13,8 @@ struct ExportShareView: View {
     @State var gridItem: GifGridItem
     @Binding var state: Bool
     private let pastboard = UIPasteboard.general
-    
+    @StateObject var gifAPI: GIPHYAPIViewModel = GIPHYAPIViewModel()
+
     var body: some View {
         VStack {
             HStack{
@@ -34,6 +35,7 @@ struct ExportShareView: View {
             }
             Spacer()
             Group {
+                LinksView(link: gridItem.gifURL)
                 Button(action: copyGIFLink) {
                     Text("Copy GIF Link")
                         .modifier(ButtonViewModifier(font: .title2, backgroundColor: .blue))
@@ -65,17 +67,13 @@ struct ExportShareView: View {
     }
     
     func saveGIFToPhotos() {
-        PHPhotoLibrary.shared().performChanges ({
-            let fileName = gridItem.gifID + ".gif"
-            let url = URL(fileURLWithPath: fileName)
-            PHAssetChangeRequest.creationRequestForAssetFromImage(atFileURL: url)
-        }) { saved, error in
-            if saved {
-                print("Your image was successfully saved")
-            } else {
-                print("issue")
-                print(error?.localizedDescription)
-            }
-        }
+        gifAPI.downloadFileFromLink(gridItem.gifURL)
+    }
+}
+
+
+struct ExportShareView_Previews: PreviewProvider {
+    static var previews: some View {
+        ExportShareView(gridItem: GifGridItem.dataSample, state: .constant(false))
     }
 }

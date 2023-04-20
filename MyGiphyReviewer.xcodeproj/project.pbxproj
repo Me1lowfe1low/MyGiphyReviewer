@@ -29,6 +29,7 @@
 		5178E10529F08E7D00DC5357 /* LoadingState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5178E10429F08E7C00DC5357 /* LoadingState.swift */; };
 		5178E10829F0970100DC5357 /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = 5178E10729F0970100DC5357 /* Kingfisher */; };
 		5194EF7729F19F7100A9ED5A /* ButtonViewModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5194EF7629F19F7100A9ED5A /* ButtonViewModifier.swift */; };
+		5198232129F1D57F0041F40B /* LinksView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5198232029F1D57F0041F40B /* LinksView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -74,6 +75,7 @@
 		5178E10429F08E7C00DC5357 /* LoadingState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingState.swift; sourceTree = "<group>"; };
 		5194EF7629F19F7100A9ED5A /* ButtonViewModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonViewModifier.swift; sourceTree = "<group>"; };
 		5194EF7829F1B20B00A9ED5A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		5198232029F1D57F0041F40B /* LinksView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LinksView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -171,6 +173,7 @@
 				5178E0F529F0049F00DC5357 /* SingleGifView.swift */,
 				5162318D29F17A1900D65942 /* ExportShareView.swift */,
 				5194EF7629F19F7100A9ED5A /* ButtonViewModifier.swift */,
+				5198232029F1D57F0041F40B /* LinksView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -347,6 +350,7 @@
 				5178E0F629F0049F00DC5357 /* SingleGifView.swift in Sources */,
 				5178E0FF29F0510E00DC5357 /* UIImageExtension.swift in Sources */,
 				5162318A29F1315300D65942 /* GIPHYAPIViewModel.swift in Sources */,
+				5198232129F1D57F0041F40B /* LinksView.swift in Sources */,
 				512764EB29EFF6A9009BD520 /* GifGridItem.swift in Sources */,
 				512764E729EFDEA8009BD520 /* MosaicGridView.swift in Sources */,
 				5178E10329F0516A00DC5357 /* GIFImage.swift in Sources */,
