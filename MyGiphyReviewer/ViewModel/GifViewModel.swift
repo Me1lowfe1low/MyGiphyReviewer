@@ -7,13 +7,48 @@
 
 import Foundation
 
+@MainActor
 class GifViewModel: ObservableObject {
     @Published var gridItems = [GifGridItem]()
+    private var giphyAPI: GIPHYAPIViewModel = GIPHYAPIViewModel()
     
-    init(limits: Int ) {
-        for _ in 0 ..< limits {
-            let randomHeight = CGFloat.random(in: 100 ... 400)
-            self.gridItems.append(GifGridItem(height: randomHeight, gifURL: String("rectangle.portrait")))
+    
+    init() {
+        let url = giphyAPI.buildURLRequest(for: "memes")
+        giphyAPI.fetchMultipleRecords(urlString: url) { gridItems, error in
+            if var gridItems = gridItems {
+                self.gridItems.append(gridItems)
+                
+                for gridItem in gridItems {
+                    
+                }
+//                self.giphyAPI.fetchOneSampleOfData(urlString: gridItems.gifURL) { data, error in
+//
+//                    gridItems.setData(data!)
+//                    self.gridItems.append(gridItems)
+//                }
+            }
+            else {
+                self.gridItems = []
+                if let error = error {
+                    print(error.localizedDescription)
+                }
+            }
+            print(gridItems)
         }
     }
+    
+
 }
+
+
+
+struct GifDataStructure: Decodable {
+    let data: [dataStructure]
+}
+
+struct dataStructure: Decodable {
+    let id: String
+    let url: String
+}
+

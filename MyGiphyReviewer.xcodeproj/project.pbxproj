@@ -18,8 +18,14 @@
 		512764E729EFDEA8009BD520 /* MosaicGridView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 512764E629EFDEA8009BD520 /* MosaicGridView.swift */; };
 		512764EB29EFF6A9009BD520 /* GifGridItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 512764EA29EFF6A9009BD520 /* GifGridItem.swift */; };
 		512764ED29EFF6D6009BD520 /* Column.swift in Sources */ = {isa = PBXBuildFile; fileRef = 512764EC29EFF6D6009BD520 /* Column.swift */; };
+		5162318A29F1315300D65942 /* GIPHYAPIViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5162318929F1315300D65942 /* GIPHYAPIViewModel.swift */; };
 		5178E0F429EFFCE300DC5357 /* GifViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5178E0F329EFFCE300DC5357 /* GifViewModel.swift */; };
 		5178E0F629F0049F00DC5357 /* SingleGifView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5178E0F529F0049F00DC5357 /* SingleGifView.swift */; };
+		5178E0FF29F0510E00DC5357 /* UIImageExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5178E0FE29F0510E00DC5357 /* UIImageExtension.swift */; };
+		5178E10129F0514500DC5357 /* UIGIFImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5178E10029F0514500DC5357 /* UIGIFImage.swift */; };
+		5178E10329F0516A00DC5357 /* GIFImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5178E10229F0516A00DC5357 /* GIFImage.swift */; };
+		5178E10529F08E7D00DC5357 /* LoadingState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5178E10429F08E7C00DC5357 /* LoadingState.swift */; };
+		5178E10829F0970100DC5357 /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = 5178E10729F0970100DC5357 /* Kingfisher */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -54,8 +60,13 @@
 		512764E629EFDEA8009BD520 /* MosaicGridView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MosaicGridView.swift; sourceTree = "<group>"; };
 		512764EA29EFF6A9009BD520 /* GifGridItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GifGridItem.swift; sourceTree = "<group>"; };
 		512764EC29EFF6D6009BD520 /* Column.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Column.swift; sourceTree = "<group>"; };
+		5162318929F1315300D65942 /* GIPHYAPIViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GIPHYAPIViewModel.swift; sourceTree = "<group>"; };
 		5178E0F329EFFCE300DC5357 /* GifViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GifViewModel.swift; sourceTree = "<group>"; };
 		5178E0F529F0049F00DC5357 /* SingleGifView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SingleGifView.swift; sourceTree = "<group>"; };
+		5178E0FE29F0510E00DC5357 /* UIImageExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIImageExtension.swift; sourceTree = "<group>"; };
+		5178E10029F0514500DC5357 /* UIGIFImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIGIFImage.swift; sourceTree = "<group>"; };
+		5178E10229F0516A00DC5357 /* GIFImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GIFImage.swift; sourceTree = "<group>"; };
+		5178E10429F08E7C00DC5357 /* LoadingState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingState.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -63,6 +74,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5178E10829F0970100DC5357 /* Kingfisher in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -106,6 +118,7 @@
 		512764B629EFCB61009BD520 /* MyGiphyReviewer */ = {
 			isa = PBXGroup;
 			children = (
+				5178E0FD29F050A800DC5357 /* Extensions */,
 				512764E329EFDB1B009BD520 /* ViewModel */,
 				512764E229EFDB0C009BD520 /* Model */,
 				512764E129EFDAFF009BD520 /* View */,
@@ -157,6 +170,7 @@
 			children = (
 				512764EA29EFF6A9009BD520 /* GifGridItem.swift */,
 				512764EC29EFF6D6009BD520 /* Column.swift */,
+				5178E10429F08E7C00DC5357 /* LoadingState.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -165,8 +179,19 @@
 			isa = PBXGroup;
 			children = (
 				5178E0F329EFFCE300DC5357 /* GifViewModel.swift */,
+				5162318929F1315300D65942 /* GIPHYAPIViewModel.swift */,
 			);
 			path = ViewModel;
+			sourceTree = "<group>";
+		};
+		5178E0FD29F050A800DC5357 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				5178E0FE29F0510E00DC5357 /* UIImageExtension.swift */,
+				5178E10029F0514500DC5357 /* UIGIFImage.swift */,
+				5178E10229F0516A00DC5357 /* GIFImage.swift */,
+			);
+			path = Extensions;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -185,6 +210,9 @@
 			dependencies = (
 			);
 			name = MyGiphyReviewer;
+			packageProductDependencies = (
+				5178E10729F0970100DC5357 /* Kingfisher */,
+			);
 			productName = MyGiphyReviewer;
 			productReference = 512764B429EFCB61009BD520 /* MyGiphyReviewer.app */;
 			productType = "com.apple.product-type.application";
@@ -257,6 +285,9 @@
 				Base,
 			);
 			mainGroup = 512764AB29EFCB61009BD520;
+			packageReferences = (
+				5178E10629F0970100DC5357 /* XCRemoteSwiftPackageReference "Kingfisher" */,
+			);
 			productRefGroup = 512764B529EFCB61009BD520 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -299,13 +330,18 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5178E10529F08E7D00DC5357 /* LoadingState.swift in Sources */,
 				5178E0F429EFFCE300DC5357 /* GifViewModel.swift in Sources */,
 				5178E0F629F0049F00DC5357 /* SingleGifView.swift in Sources */,
+				5178E0FF29F0510E00DC5357 /* UIImageExtension.swift in Sources */,
+				5162318A29F1315300D65942 /* GIPHYAPIViewModel.swift in Sources */,
 				512764EB29EFF6A9009BD520 /* GifGridItem.swift in Sources */,
 				512764E729EFDEA8009BD520 /* MosaicGridView.swift in Sources */,
+				5178E10329F0516A00DC5357 /* GIFImage.swift in Sources */,
 				512764BA29EFCB61009BD520 /* ContentView.swift in Sources */,
 				512764E529EFDB66009BD520 /* MainView.swift in Sources */,
 				512764B829EFCB61009BD520 /* MyGiphyReviewerApp.swift in Sources */,
+				5178E10129F0514500DC5357 /* UIGIFImage.swift in Sources */,
 				512764ED29EFF6D6009BD520 /* Column.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -631,6 +667,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		5178E10629F0970100DC5357 /* XCRemoteSwiftPackageReference "Kingfisher" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/onevcat/Kingfisher.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 7.0.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		5178E10729F0970100DC5357 /* Kingfisher */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 5178E10629F0970100DC5357 /* XCRemoteSwiftPackageReference "Kingfisher" */;
+			productName = Kingfisher;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 512764AC29EFCB61009BD520 /* Project object */;
 }
