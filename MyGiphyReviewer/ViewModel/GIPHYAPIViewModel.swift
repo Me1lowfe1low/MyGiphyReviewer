@@ -41,6 +41,7 @@ class GIPHYAPIViewModel: ObservableObject {
                                 let gridItems =
                                 GifGridItem(height: randomHeight,
                                             gifURL: gifURL,
+                                            gifGIPHYURL: gifData.url,
                                             gifID: gifData.id)
                                 completionHandler(gridItems,nil)
                                 //print("url: \(gifURL) and id: \(gifData.id)" )

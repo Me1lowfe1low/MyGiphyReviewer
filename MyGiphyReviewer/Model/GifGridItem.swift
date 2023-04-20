@@ -11,10 +11,17 @@ struct GifGridItem: Identifiable {
     let id: UUID = UUID()
     let height: CGFloat
     let gifURL: String
+    let gifGIPHYURL: String
     let gifID: String
     var gifData: Data? = nil
     
     mutating func setData(_ data: Data) {
         self.gifData = data
     }
+    
+#if DEBUG
+static let dataSample: GifGridItem = GifGridItem(height: 200.0, gifURL: "https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExMDQyZjczZDAwYjkzZDQ1MjhkNmNhZDkyYzVhMTcxNzVlY2UxMzQwNSZlcD12MV9pbnRlcm5hbF9naWZzX2dpZklkJmN0PWc/0v0KlsuyXUvTrLPXZu/giphy.gif",gifGIPHYURL: "https://giphy.com/gifs/giatec-dogs-construction-3ov9jRPMChw9ZzVlUk" ,gifID: "0v0KlsuyXUvTrLXZu")
+#endif
 }
+
+

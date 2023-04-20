@@ -6,22 +6,29 @@
 //    dmgordienko@gmail.com 2023
 
 import SwiftUI
-import Kingfisher
+
 
 
 struct SingleGifView: View {
     @State var gridItem: GifGridItem
     @StateObject var gifAPI: GIPHYAPIViewModel = GIPHYAPIViewModel()
+    @State var sheetIsOpened = false
+    @Environment(\.dismiss) private var dismiss
     
     var body: some View {
         ZStack {
             GeometryReader { geoProxy in
                 if let data = gridItem.gifData {
-                    //GIFImage(data: data)
-                    KFAnimatedImage(URL(string: gridItem.gifURL))
-                        .scaledToFill()
-                    
-                        .frame(width: geoProxy.size.width, height: geoProxy.size.height, alignment: .center)
+                    Button(action: { sheetIsOpened.toggle() })
+                    {
+                        GIFImage(data: data)
+                        //KFAnimatedImage(URL(string: gridItem.gifURL))
+                            .scaledToFill()
+                            .frame(width: geoProxy.size.width, height: geoProxy.size.height, alignment: .center)
+                    }
+                    .sheet(isPresented: $sheetIsOpened) {
+                        ExportShareView(gridItem: gridItem, state: $sheetIsOpened)
+                    }
                 }
                 else {
                     RoundedRectangle(cornerRadius: 5)
@@ -48,14 +55,13 @@ struct SingleGifView: View {
     
     func updateGifData() {
         //print("updating imgage")
-        
-
     }
+
 }
 
 struct SingleGifView_Previews: PreviewProvider {
     static var previews: some View {
-        SingleGifView(gridItem: GifGridItem(height: 200.0, gifURL: "https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExMDQyZjczZDAwYjkzZDQ1MjhkNmNhZDkyYzVhMTcxNzVlY2UxMzQwNSZlcD12MV9pbnRlcm5hbF9naWZzX2dpZklkJmN0PWc/0v0KlsuyXUvTrLPXZu/giphy.gif", gifID: "0v0KlsuyXUvTrLXZu"))
+        SingleGifView(gridItem: GifGridItem.dataSample)
     }
 }
 
