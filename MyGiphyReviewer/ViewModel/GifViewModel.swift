@@ -14,7 +14,7 @@ class GifViewModel: ObservableObject {
     
     
     init() {
-        let url = giphyAPI.buildURLRequest(for: "memes")
+        let url = giphyAPI.buildURLRequest(for: "dogs")
         giphyAPI.fetchMultipleRecords(urlString: url) { gridItems, error in
             if var gridItems = gridItems {
                 self.gridItems.append(gridItems)

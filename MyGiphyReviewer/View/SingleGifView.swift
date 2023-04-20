@@ -6,7 +6,7 @@
 //    dmgordienko@gmail.com 2023
 
 import SwiftUI
-//import Kingfisher
+import Kingfisher
 
 
 struct SingleGifView: View {
@@ -17,15 +17,15 @@ struct SingleGifView: View {
         ZStack {
             GeometryReader { geoProxy in
                 if let data = gridItem.gifData {
-                    GIFImage(data: data)
-//                    if let data = gridItem.gifURL {
-//                    KFAnimatedImage(URL(string: data))
+                    //GIFImage(data: data)
+                    KFAnimatedImage(URL(string: gridItem.gifURL))
                         .scaledToFill()
+                    
                         .frame(width: geoProxy.size.width, height: geoProxy.size.height, alignment: .center)
                 }
                 else {
-                    RoundedRectangle(cornerRadius: 30)
-                        .fill(LinearGradient(colors: [.blue,.cyan,.blue], startPoint: .topLeading, endPoint: .bottomTrailing))
+                    RoundedRectangle(cornerRadius: 5)
+                        .fill(LinearGradient(colors: ColorOptions.allCases.randomElement()!.colorMap, startPoint: .bottomLeading, endPoint: .topTrailing))
                         .frame(width: geoProxy.size.width, height: geoProxy.size.height, alignment: .center)
                         .onAppear(perform: {
                             gifAPI.fetchOneSampleOfData(urlString: gridItem.gifURL) { data, error in

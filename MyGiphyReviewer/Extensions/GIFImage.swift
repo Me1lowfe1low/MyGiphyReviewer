@@ -26,6 +26,7 @@ struct GIFImage: UIViewRepresentable {
             return UIGIFImage(data: data)
         } else {
             return UIGIFImage(name: name! ?? "")
+                
         }
     }
     

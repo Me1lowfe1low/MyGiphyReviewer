@@ -35,6 +35,7 @@ class UIGIFImage: UIView {
     override func layoutSubviews() {
         super.layoutSubviews()
         imageView.frame = bounds
+        imageView.contentMode = .scaleAspectFill
         self.addSubview(imageView)
     }
     
