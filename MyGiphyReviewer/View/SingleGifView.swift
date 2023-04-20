@@ -27,13 +27,17 @@ struct SingleGifView: View {
                     RoundedRectangle(cornerRadius: 30)
                         .fill(LinearGradient(colors: [.blue,.cyan,.blue], startPoint: .topLeading, endPoint: .bottomTrailing))
                         .frame(width: geoProxy.size.width, height: geoProxy.size.height, alignment: .center)
-                        .onAppear(perform: { print("updating imgage") })
+                        .onAppear(perform: { updateGifData() } )
                 }
             }
         }
         .frame(height: gridItem.height)
         .frame(maxWidth: .infinity)
         .clipShape(RoundedRectangle(cornerRadius: 5.0))
+    }
+    
+    func updateGifData() {
+        print("updating imgage")
     }
 }
 

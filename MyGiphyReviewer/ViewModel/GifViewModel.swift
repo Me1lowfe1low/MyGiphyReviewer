@@ -18,15 +18,7 @@ class GifViewModel: ObservableObject {
         giphyAPI.fetchMultipleRecords(urlString: url) { gridItems, error in
             if var gridItems = gridItems {
                 self.gridItems.append(gridItems)
-                
-                for gridItem in gridItems {
-                    
-                }
-//                self.giphyAPI.fetchOneSampleOfData(urlString: gridItems.gifURL) { data, error in
-//
-//                    gridItems.setData(data!)
-//                    self.gridItems.append(gridItems)
-//                }
+
             }
             else {
                 self.gridItems = []
@@ -42,6 +34,14 @@ class GifViewModel: ObservableObject {
 }
 
 
+//                for gridItem in gridItems {
+//
+//                }
+//                self.giphyAPI.fetchOneSampleOfData(urlString: gridItems.gifURL) { data, error in
+//
+//                    gridItems.setData(data!)
+//                    self.gridItems.append(gridItems)
+//                }
 
 struct GifDataStructure: Decodable {
     let data: [dataStructure]
