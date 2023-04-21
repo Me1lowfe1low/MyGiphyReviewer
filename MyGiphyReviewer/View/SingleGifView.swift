@@ -8,10 +8,9 @@
 import SwiftUI
 
 struct SingleGifView: View {
-    @State var gridItem: GifGridItem
-    //@StateObject var gifAPI: GIPHYAPIViewModel = GIPHYAPIViewModel()
-    @State var sheetIsOpened = false
     @EnvironmentObject var gifAPI: GIPHYAPIViewModel
+    @State var gridItem: GifGridItem
+    @State var sheetIsOpened = false
     
     var body: some View {
         ZStack {

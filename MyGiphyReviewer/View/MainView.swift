@@ -13,7 +13,16 @@ struct MainView: View {
 
     var body: some View {
         ScrollView(showsIndicators: false) {
-            Text("MainViewInScroll")
+            ScrollView(.horizontal, showsIndicators: false) {
+                HStack {
+                    ForEach(TabBarModel.allCases, id: \.self) { tabElement in
+                        Text(tabElement.title)
+                            .padding()
+                            .background(.yellow)
+                            .clipShape(Capsule())
+                    }
+                }
+            }
             MosaicGridView(gridItems: gifs.gridItems)
                 .padding()
         }
