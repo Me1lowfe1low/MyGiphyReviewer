@@ -30,7 +30,7 @@ class GIPHYAPIViewModel: ObservableObject {
         let formatter = DateFormatter()
         formatter.dateFormat = "MMddHHmmssSSS"
         let fileTimeSuffix = formatter.string(from: currentTime)
-        return "GIPHY" + fileTimeSuffix + ".gif"
+        return "GIPHY_" + fileTimeSuffix + ".gif"
     }
     
     func fetchOneSampleOfData(urlString: String) async -> Data {
@@ -66,32 +66,21 @@ class GIPHYAPIViewModel: ObservableObject {
         }
     }
     
-    func downloadFileFromLink(_ link: String) async {
-        let fileManager = FileManager.default
-        let photoPath = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true).first!
-        
+    func downloadGIFFileFromLink(_ link: String) async  {
         do {
             guard let url = URL(string: link) else { return }
-            if !fileManager.fileExists(atPath: photoPath) {
-                do {
-                    try fileManager.createDirectory(atPath: photoPath, withIntermediateDirectories: true, attributes: nil)
-                    print("Path was created")
-                } catch let error {
-                    print(error.localizedDescription)
-                }
-            }
-            let response = try await URLSession.shared.download(from: url)
-            let location = response.0
-            let photoURL = fileManager.urls(for: .documentDirectory, in: .userDomainMask)[0]
-            let destinationURL = photoURL.appendingPathComponent(self.buildGIFSystemURL())
-            print(photoURL)
-            print(destinationURL)
-            try FileManager.default.moveItem(at: location, to: destinationURL)
-            print("Files saved successfully")
+            let response = try await URLSession.shared.data(from: url)
+
+            try await PHPhotoLibrary.shared().performChanges({
+                let creationRequest = PHAssetCreationRequest.forAsset()
+                let fileName = PHAssetResourceCreationOptions()
+                fileName.originalFilename = self.buildGIFSystemURL()
+                creationRequest.addResource(with: .photo, data: response.0, options: fileName)
+                print("Filename: \(String(describing: fileName.originalFilename))")
+            })
+            print("File saved")
         } catch let error {
             print(error.localizedDescription)
-            print("There are the issues with saving data to the device")
         }
-        
     }
 }

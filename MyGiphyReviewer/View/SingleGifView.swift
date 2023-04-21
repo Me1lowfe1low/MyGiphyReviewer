@@ -11,8 +11,7 @@ struct SingleGifView: View {
     @State var gridItem: GifGridItem
     @StateObject var gifAPI: GIPHYAPIViewModel = GIPHYAPIViewModel()
     @State var sheetIsOpened = false
-    @Environment(\.dismiss) private var dismiss
-    
+
     var body: some View {
         ZStack {
             GeometryReader { geoProxy in
@@ -20,7 +19,6 @@ struct SingleGifView: View {
                     Button(action: { sheetIsOpened.toggle() })
                     {
                         GIFImage(data: data)
-                        //KFAnimatedImage(URL(string: gridItem.gifURL))
                             .scaledToFill()
                             .frame(width: geoProxy.size.width, height: geoProxy.size.height, alignment: .center)
                     }
@@ -45,11 +43,6 @@ struct SingleGifView: View {
         .frame(maxWidth: .infinity)
         .clipShape(RoundedRectangle(cornerRadius: 5.0))
     }
-    
-    func updateGifData() {
-        //print("updating imgage")
-    }
-
 }
 
 struct SingleGifView_Previews: PreviewProvider {

@@ -10,7 +10,6 @@ import UIKit
 class UIGIFImage: UIView {
     private let imageView = UIImageView()
     private var data: Data?
-    private var name: String?
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -22,7 +21,6 @@ class UIGIFImage: UIView {
     
     convenience init(name: String) {
         self.init()
-        self.name = name
         initView()
     }
     
@@ -41,10 +39,6 @@ class UIGIFImage: UIView {
     
     func updateGIF(data: Data) {
         imageView.image = UIImage.gifImage(data: data)
-    }
-    
-    func updateGIF(name: String) {
-        imageView.image = UIImage.gifImage(name: name)
     }
     
     private func initView() {
