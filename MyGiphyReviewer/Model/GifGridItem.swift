@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct GifGridItem: Identifiable {
+struct GifGridItem: Identifiable, Hashable {
     let id: UUID = UUID()
     let height: CGFloat
     let gifURL: String

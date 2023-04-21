@@ -22,7 +22,7 @@ struct MainView: View {
                             .clipShape(Capsule())
                     }
                 }
-            }
+            }            
             MosaicGridView(gridItems: gifs.gridItems)
                 .padding()
         }

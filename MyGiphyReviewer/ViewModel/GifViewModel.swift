@@ -23,7 +23,8 @@ class GifViewModel: ObservableObject {
         Task {
             let gridItems = await giphyAPI.fetchMultipleRecords(url: url)
             await MainActor.run { [weak self] in
-                self?.gridItems = gridItems
+                self?.gridItems.append(contentsOf: gridItems)
+                //self?.gridItems = gridItems
             }
         }
     }
