@@ -10,7 +10,6 @@ import Foundation
 @MainActor
 class GifViewModel: ObservableObject {
     @Published var gridItems = [GifGridItem]()
-
     private let giphyAPI: GIPHYAPIViewModel
     private let queryString: String
     
@@ -29,7 +28,6 @@ class GifViewModel: ObservableObject {
         }
     }
 }
-                 
 
 struct GifDataStructure: Decodable {
     let data: [dataStructure]
