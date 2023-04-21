@@ -33,14 +33,14 @@ class GIPHYAPIViewModel: ObservableObject {
         return "GIPHY_" + fileTimeSuffix + ".gif"
     }
     
-    func fetchOneSampleOfData(urlString: String) async -> Data {
-        if let cached = cache.object(forKey: urlString as NSString) { return cached as Data }
+    func fetchOneSampleOfData(item: GifGridItem) async -> Data {
+        if let cached = cache.object(forKey: item.gifID as NSString) { return cached as Data }
         
         do {
-            guard let url = URL(string: urlString) else { return Data() }
+            guard let url = URL(string: item.gifURL) else { return Data() }
             let response = try await URLSession.shared.data(from: url)
             let data = response.0
-            cache.setObject(data as NSData, forKey: urlString as NSString)
+            cache.setObject(data as NSData, forKey: item.gifID as NSString)
             return data
         } catch let error {
             print(error.localizedDescription)

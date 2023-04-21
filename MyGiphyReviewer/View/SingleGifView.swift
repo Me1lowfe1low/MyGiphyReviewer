@@ -15,7 +15,7 @@ struct SingleGifView: View {
     var body: some View {
         ZStack {
             GeometryReader { geoProxy in
-                if let data = gridItem.gifData {
+                if let data = gridItem.gifData, !gridItem.gifData!.isEmpty {
                     Button(action: { sheetIsOpened.toggle() })
                     {
                         GIFImage(data: data)
@@ -33,7 +33,7 @@ struct SingleGifView: View {
                 }
              }
              .task {
-                 let data = await gifAPI.fetchOneSampleOfData(urlString: gridItem.gifURL)
+                 let data = await gifAPI.fetchOneSampleOfData(item: gridItem)
                  await MainActor.run {
                      gridItem.gifData = data
                 }
