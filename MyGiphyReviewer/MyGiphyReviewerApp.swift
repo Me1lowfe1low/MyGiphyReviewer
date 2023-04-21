@@ -10,8 +10,10 @@ import SwiftUI
 @main
 struct MyGiphyReviewerApp: App {
     var body: some Scene {
+        
         WindowGroup {
             ContentView()
         }
+        
     }
 }

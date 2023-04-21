@@ -8,15 +8,16 @@
 import SwiftUI
 
 struct MainView: View {
-    @State var gifData : [String] = []
-    @State var present = false
-    @State var url = ""
-    @State var gifs: GifViewModel = GifViewModel(limits: 25)
+    @ObservedObject var gifs: GifViewModel = GifViewModel()
     
     var body: some View {
-        ScrollView {
+        ScrollView(showsIndicators: false) {
+            Text("MainViewInScroll")
             MosaicGridView(gridItems: gifs.gridItems)
                 .padding()
+        }
+        .task {
+            gifs.fetchRecords()
         }
     }
 }
