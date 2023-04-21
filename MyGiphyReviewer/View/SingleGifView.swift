@@ -32,17 +32,12 @@ struct SingleGifView: View {
                     RoundedRectangle(cornerRadius: 5)
                         .fill(LinearGradient(colors: ColorOptions.allCases.randomElement()!.colorMap, startPoint: .bottomLeading, endPoint: .topTrailing))
                         .frame(width: geoProxy.size.width, height: geoProxy.size.height, alignment: .center)
-                        .onAppear(perform: {
-                            gifAPI.fetchOneSampleOfData(urlString: gridItem.gifURL) { data, error in
-                                if let data = data {
-                                    DispatchQueue.main.async {
-                                        gridItem.gifData = data
-                                    }
-                                } else {
-                                    print(error?.localizedDescription)
-                                }
-                            }
-                        })
+                }
+             }
+             .task {
+                 let data = await gifAPI.fetchOneSampleOfData(urlString: gridItem.gifURL)
+                 await MainActor.run {
+                     gridItem.gifData = data
                 }
             }
         }

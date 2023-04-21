@@ -35,7 +35,6 @@ struct ExportShareView: View {
             }
             Spacer()
             Group {
-                LinksView(link: gridItem.gifURL)
                 Button(action: copyGIFLink) {
                     Text("Copy GIF Link")
                         .modifier(ButtonViewModifier(font: .title2, backgroundColor: .blue))
@@ -48,7 +47,6 @@ struct ExportShareView: View {
                     Text("Cancel")
                         .modifier(ButtonViewModifier(font: .title3, backgroundColor: .black))
                 }
-                
                 Spacer()
             }
         }
@@ -67,7 +65,11 @@ struct ExportShareView: View {
     }
     
     func saveGIFToPhotos() {
-        gifAPI.downloadFileFromLink(gridItem.gifURL)
+        
+        Task {
+            await gifAPI.downloadFileFromLink(gridItem.gifURL)
+       }
+        
     }
 }
 
