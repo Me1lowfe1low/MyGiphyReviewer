@@ -31,7 +31,7 @@ struct MainView: View {
                         case .readyForFetch:
                             ZStack{
                                 Spacer()
-                                Color.red
+                                Color.clear
                                     .frame(height: 300)
                                     .task {
                                         Task {
