@@ -27,6 +27,19 @@ struct MainView: View {
                 LazyVStack {
                     MosaicGridView(gridItems: gifs.gridItems)
                         .padding()
+                    if gifAPI.isLoading  {
+                        ProgressView()
+                            .progressViewStyle(.circular)
+                    } else {
+                        Color.red
+                            .task {
+                                Task {
+                                    print("state: \(gifAPI.isLoading)")
+                                    print("Loading more data")
+                                    gifs.fetchRecords()
+                                }
+                            }
+                    }
                 }
                 .task {
                     gifs.fetchRecords()

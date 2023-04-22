@@ -15,6 +15,8 @@ class GIPHYAPIViewModel: ObservableObject {
     private let limit: Int
     var page: Int
     var maxIndex: Int
+    
+    @Published var isLoading: Bool
 
     init(cache: NSCache<NSString, NSData> = .init()) {
         self.cache = cache
@@ -23,6 +25,8 @@ class GIPHYAPIViewModel: ObservableObject {
         self.limit = 10
         
         self.maxIndex = 0
+        
+        self.isLoading = false
     }
     
     func buildURLRequest(for searchObject: String) -> URL {
@@ -62,6 +66,9 @@ class GIPHYAPIViewModel: ObservableObject {
     }
     
     func fetchGifs(url: URL) async -> [GifGridItem] {
+        guard !isLoading else {
+            return []
+        }
         do {
             let response = try await URLSession.shared.data(from: url)
             let decodedGiphy = try JSONDecoder().decode(GifDataStructure.self, from: response.0)
@@ -70,8 +77,11 @@ class GIPHYAPIViewModel: ObservableObject {
             decodedGiphy.data.forEach { gifData in
                 let randomHeight = CGFloat.random(in: 100 ... 400)
                 let gifURL: String = self.buildGIFURLString(for: gifData.id)
-                gridItems.append(GifGridItem(height: randomHeight, gifURL: gifURL, gifGIPHYURL: gifData.url, gifID: gifData.id))
+                gridItems.append(GifGridItem(index: self.maxIndex, height: randomHeight, gifURL: gifURL, gifGIPHYURL: gifData.url, gifID: gifData.id))
+                print(self.maxIndex)
+                self.maxIndex += 1
             }
+            print("Gathered grid for page#: \(self.page)")
             return gridItems
         } catch let error {
             print(error.localizedDescription)

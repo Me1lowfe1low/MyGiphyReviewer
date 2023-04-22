@@ -25,6 +25,8 @@ class GifViewModel: ObservableObject {
             await MainActor.run { [weak self] in
                 self?.gridItems.append(contentsOf: gridItems)
                 //self?.gridItems = gridItems
+                self?.giphyAPI.page += 1
+                self?.giphyAPI.isLoading = false
             }
         }
     }
