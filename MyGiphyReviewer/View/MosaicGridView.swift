@@ -57,7 +57,9 @@ struct MosaicGridView: View {
 
 struct MosaicGridView_MainView_Previews: PreviewProvider {
     static var previews: some View {
+        let gifAPI = GIPHYAPIViewModel()
         MainView()
+            .environmentObject(gifAPI)
     }
 }
 

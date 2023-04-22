@@ -10,7 +10,6 @@ import Foundation
 @MainActor
 class GifViewModel: ObservableObject {
     @Published var gridItems = [GifGridItem]()
-
     private let giphyAPI: GIPHYAPIViewModel
     private let queryString: String
     
@@ -24,12 +23,12 @@ class GifViewModel: ObservableObject {
         Task {
             let gridItems = await giphyAPI.fetchMultipleRecords(url: url)
             await MainActor.run { [weak self] in
-                self?.gridItems = gridItems
+                self?.gridItems.append(contentsOf: gridItems)
+                //self?.gridItems = gridItems
             }
         }
     }
 }
-                 
 
 struct GifDataStructure: Decodable {
     let data: [dataStructure]

@@ -8,10 +8,10 @@
 import SwiftUI
 
 struct SingleGifView: View {
+    @EnvironmentObject var gifAPI: GIPHYAPIViewModel
     @State var gridItem: GifGridItem
-    @StateObject var gifAPI: GIPHYAPIViewModel = GIPHYAPIViewModel()
     @State var sheetIsOpened = false
-
+    
     var body: some View {
         ZStack {
             GeometryReader { geoProxy in
@@ -47,7 +47,9 @@ struct SingleGifView: View {
 
 struct SingleGifView_Previews: PreviewProvider {
     static var previews: some View {
+        let gifAPI = GIPHYAPIViewModel()
         SingleGifView(gridItem: GifGridItem.dataSample)
+            .environmentObject(gifAPI)
     }
 }
 

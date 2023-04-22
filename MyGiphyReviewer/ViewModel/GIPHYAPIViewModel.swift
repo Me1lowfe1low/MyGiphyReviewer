@@ -14,8 +14,8 @@ class GIPHYAPIViewModel: ObservableObject {
     
     init(cache: NSCache<NSString, NSData> = .init()) {
              self.cache = cache
+             self.cache.countLimit = 50
          }
-
     
     func buildURLRequest(for searchObject: String, limit: Int = 25, offset: Int = 0) -> URL {
              URL(string:"https://api.giphy.com/v1/gifs/search?api_key=\(apiKey)&q=\(searchObject)&limit=\(limit)&offset=\(offset)&rating=g&lang=en")!
@@ -41,6 +41,7 @@ class GIPHYAPIViewModel: ObservableObject {
             let response = try await URLSession.shared.data(from: url)
             let data = response.0
             cache.setObject(data as NSData, forKey: item.gifID as NSString)
+            print("cached \(item.gifID)")
             return data
         } catch let error {
             print(error.localizedDescription)
@@ -66,16 +67,25 @@ class GIPHYAPIViewModel: ObservableObject {
         }
     }
     
-    func downloadGIFFileFromLink(_ link: String) async  {
+    func downloadGIFFile(_ item: GifGridItem) async  {
+        var gifData = Data()
+        print("Checking in cache gifID: \(item.gifID)")
         do {
-            guard let url = URL(string: link) else { return }
-            let response = try await URLSession.shared.data(from: url)
-
+            if let cached = cache.object(forKey: item.gifID as NSString) {
+                print("Using cached data")
+                gifData = cached as Data
+            } else {
+                print("Using fresh data")
+                guard let url = URL(string: item.gifURL) else { return }
+                let response = try await URLSession.shared.data(from: url)
+                gifData = response.0
+                cache.setObject(gifData as NSData, forKey: item.gifID as NSString)
+            }
             try await PHPhotoLibrary.shared().performChanges({
                 let creationRequest = PHAssetCreationRequest.forAsset()
                 let fileName = PHAssetResourceCreationOptions()
                 fileName.originalFilename = self.buildGIFSystemURL()
-                creationRequest.addResource(with: .photo, data: response.0, options: fileName)
+                creationRequest.addResource(with: .photo, data: gifData, options: fileName)
                 print("Filename: \(String(describing: fileName.originalFilename))")
             })
             print("File saved")
