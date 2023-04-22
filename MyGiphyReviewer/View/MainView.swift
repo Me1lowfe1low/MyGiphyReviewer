@@ -9,10 +9,10 @@ import SwiftUI
 
 struct MainView: View {
     @ObservedObject var gifs: GifViewModel = GifViewModel()
-    @EnvironmentObject var gifAPI: GIPHYAPIViewModel
+    @EnvironmentObject var gifAPI: GIPHYAPIService
 
     var body: some View {
-        ScrollView(showsIndicators: false) {
+        VStack {
             ScrollView(.horizontal, showsIndicators: false) {
                 HStack {
                     ForEach(TabBarModel.allCases, id: \.self) { tabElement in
@@ -22,19 +22,46 @@ struct MainView: View {
                             .clipShape(Capsule())
                     }
                 }
-            }            
-            MosaicGridView(gridItems: gifs.gridItems)
-                .padding()
-        }
-        .task {
-            gifs.fetchRecords()
+            }
+            ScrollView(showsIndicators: false) {
+                LazyVStack {
+                    MosaicGridView(gridItems: gifs.gridItems, gifs: _gifs)
+                        .padding()
+                    switch gifs.loadingState {
+                        case .readyForFetch:
+                            ZStack{
+                                Spacer()
+                                Color.clear
+                                    .frame(height: 300)
+                                    .task {
+                                        Task {
+                                            print("state: \(gifs.loadingState)")
+                                            print("Loading more data")
+                                            gifs.fetchRecords()
+                                        }
+                                    }
+                            }
+                        case .isLoading:
+                            ProgressView()
+                                .progressViewStyle(.circular)
+                        case .initialState:
+                            Color.yellow
+                        case .error(let error):
+                            Text(error)
+                                .font(.title)
+                    }
+                }
+//                .task {
+//                    gifs.fetchRecords()
+//                }
+            }
         }
     }
 }
 
 struct MainView_Previews: PreviewProvider {
     static var previews: some View {
-        let gifAPI = GIPHYAPIViewModel()
+        let gifAPI = GIPHYAPIService()
         MainView()
             .environmentObject(gifAPI)
     }

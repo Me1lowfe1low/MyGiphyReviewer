@@ -15,7 +15,8 @@ struct ExportShareView: View {
     private let pastboard = UIPasteboard.general
     //@ObservedObject var gifAPI: GIPHYAPIViewModel = GIPHYAPIViewModel()
     @State var imagePath: String = ""
-    @EnvironmentObject var gifAPI: GIPHYAPIViewModel
+    //@EnvironmentObject var gifAPI: GIPHYAPIViewModel
+    @ObservedObject var gifs: GifViewModel
     
     var body: some View {
         VStack {
@@ -70,15 +71,13 @@ struct ExportShareView: View {
     
     func saveGIFToPhotos() {
         Task {
-            await gifAPI.downloadGIFFile(gridItem)
+            await gifs.saveGifFile(gridItem)
         }
     }
 }
 
 struct ExportShareView_Previews: PreviewProvider {
     static var previews: some View {
-        let gifAPI = GIPHYAPIViewModel()
-        ExportShareView(gridItem: GifGridItem.dataSample, state: .constant(false))
-            .environmentObject(gifAPI)
+        ExportShareView(gridItem: GifGridItem.dataSample, state: .constant(false), gifs: GifViewModel())
     }
 }
