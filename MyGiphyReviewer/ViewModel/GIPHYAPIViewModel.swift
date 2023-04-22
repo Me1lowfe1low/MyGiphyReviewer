@@ -22,11 +22,11 @@ class GIPHYAPIViewModel: ObservableObject {
         self.cache = cache
         self.cache.countLimit = 50
         self.page = 0
-        self.limit = 40
+        self.limit = 10
         
         self.maxIndex = 0
         
-        self.loadingState = .good
+        self.loadingState = .readyForFetch
     }
     
     func buildURLRequest(for searchObject: String) -> URL {
@@ -66,9 +66,9 @@ class GIPHYAPIViewModel: ObservableObject {
     }
     
     func fetchGifs(url: URL) async -> [GifGridItem] {
-        guard loadingState == .good else {
-            return []
-        }
+//        guard loadingState == .readyForFetch else {
+//            return []
+//        }
         do {
             self.loadingState = .isLoading
             let response = try await URLSession.shared.data(from: url)

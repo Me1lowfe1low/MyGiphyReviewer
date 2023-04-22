@@ -8,8 +8,8 @@
 import Foundation
 
 enum LoadingState: Comparable {
-    case good
+    case readyForFetch
     case isLoading
-    case allIsLoaded
     case error(String)
+    case initialState
 }

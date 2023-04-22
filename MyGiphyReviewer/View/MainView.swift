@@ -28,10 +28,10 @@ struct MainView: View {
                     MosaicGridView(gridItems: gifs.gridItems)
                         .padding()
                     switch gifAPI.loadingState {
-                        case .good:
+                        case .readyForFetch:
                             ZStack{
                                 Spacer()
-                                Color.clear
+                                Color.red
                                     .frame(height: 300)
                                     .task {
                                         Task {
@@ -44,7 +44,7 @@ struct MainView: View {
                         case .isLoading:
                             ProgressView()
                                 .progressViewStyle(.circular)
-                        case .allIsLoaded:
+                        case .initialState:
                             Color.yellow
                         case .error(let error):
                             Text(error)
