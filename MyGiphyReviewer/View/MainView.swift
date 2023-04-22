@@ -22,30 +22,38 @@ struct MainView: View {
                             .clipShape(Capsule())
                     }
                 }
-            }        
+            }
             ScrollView(showsIndicators: false) {
                 LazyVStack {
                     MosaicGridView(gridItems: gifs.gridItems)
                         .padding()
-                    if gifAPI.isLoading  {
-                        ProgressView()
-                            .progressViewStyle(.circular)
-                    } else {
-                        Color.red
-                            .task {
-                                Task {
-                                    print("state: \(gifAPI.isLoading)")
-                                    print("Loading more data")
-                                    gifs.fetchRecords()
-                                }
+                    switch gifAPI.loadingState {
+                        case .good:
+                            ZStack{
+                                Spacer()
+                                Color.clear
+                                    .frame(height: 300)
+                                    .task {
+                                        Task {
+                                            print("state: \(gifAPI.loadingState)")
+                                            print("Loading more data")
+                                            gifs.fetchRecords()
+                                        }
+                                    }
                             }
+                        case .isLoading:
+                            ProgressView()
+                                .progressViewStyle(.circular)
+                        case .allIsLoaded:
+                            Color.yellow
+                        case .error(let error):
+                            Text(error)
+                                .font(.title)
                     }
                 }
-                .task {
-                    gifs.fetchRecords()
-                }
-                
-                
+//                .task {
+//                    gifs.fetchRecords()
+//                }
             }
         }
     }

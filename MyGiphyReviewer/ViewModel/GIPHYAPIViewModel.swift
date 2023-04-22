@@ -16,7 +16,7 @@ class GIPHYAPIViewModel: ObservableObject {
     var page: Int
     var maxIndex: Int
     
-    @Published var isLoading: Bool
+    @Published var loadingState: LoadingState
 
     init(cache: NSCache<NSString, NSData> = .init()) {
         self.cache = cache
@@ -26,7 +26,7 @@ class GIPHYAPIViewModel: ObservableObject {
         
         self.maxIndex = 0
         
-        self.isLoading = false
+        self.loadingState = .good
     }
     
     func buildURLRequest(for searchObject: String) -> URL {
@@ -57,7 +57,7 @@ class GIPHYAPIViewModel: ObservableObject {
             let response = try await URLSession.shared.data(from: url)
             let data = response.0
             cache.setObject(data as NSData, forKey: item.gifID as NSString)
-            print("cached \(item.gifID)")
+            print("cached item ( index: \(item.index), page: \(self.page) gifId: \(item.gifID)")
             return data
         } catch let error {
             print(error.localizedDescription)
@@ -66,10 +66,11 @@ class GIPHYAPIViewModel: ObservableObject {
     }
     
     func fetchGifs(url: URL) async -> [GifGridItem] {
-        guard !isLoading else {
+        guard loadingState == .good else {
             return []
         }
         do {
+            self.loadingState = .isLoading
             let response = try await URLSession.shared.data(from: url)
             let decodedGiphy = try JSONDecoder().decode(GifDataStructure.self, from: response.0)
             
@@ -84,7 +85,7 @@ class GIPHYAPIViewModel: ObservableObject {
             print("Gathered grid for page#: \(self.page)")
             return gridItems
         } catch let error {
-            print(error.localizedDescription)
+            self.loadingState = .error("Error in loading gifs: \(error.localizedDescription)")
             return []
         }
     }

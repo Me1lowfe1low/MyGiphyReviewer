@@ -26,7 +26,7 @@ class GifViewModel: ObservableObject {
                 self?.gridItems.append(contentsOf: gridItems)
                 //self?.gridItems = gridItems
                 self?.giphyAPI.page += 1
-                self?.giphyAPI.isLoading = false
+                self?.giphyAPI.loadingState = (gridItems.count == 10) ? .good : .allIsLoaded
             }
         }
     }
