@@ -8,9 +8,10 @@
 import SwiftUI
 
 struct SingleGifView: View {
-    @EnvironmentObject var gifAPI: GIPHYAPIViewModel
+    @EnvironmentObject var gifAPI: GIPHYAPIService
     @State var gridItem: GifGridItem
     @State var sheetIsOpened = false
+    @ObservedObject var gifs: GifViewModel
     
     var body: some View {
         ZStack {
@@ -23,7 +24,7 @@ struct SingleGifView: View {
                             .frame(width: geoProxy.size.width, height: geoProxy.size.height, alignment: .center)
                     }
                     .sheet(isPresented: $sheetIsOpened) {
-                        ExportShareView(gridItem: gridItem, state: $sheetIsOpened)
+                        ExportShareView(gridItem: gridItem, state: $sheetIsOpened, gifs: gifs)
                     }
                 }
                 else {
@@ -47,8 +48,8 @@ struct SingleGifView: View {
 
 struct SingleGifView_Previews: PreviewProvider {
     static var previews: some View {
-        let gifAPI = GIPHYAPIViewModel()
-        SingleGifView(gridItem: GifGridItem.dataSample)
+        let gifAPI = GIPHYAPIService()
+        SingleGifView(gridItem: GifGridItem.dataSample, gifs: GifViewModel())
             .environmentObject(gifAPI)
     }
 }

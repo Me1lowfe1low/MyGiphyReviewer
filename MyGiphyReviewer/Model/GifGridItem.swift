@@ -26,10 +26,17 @@ struct GifGridItem: Identifiable, Hashable {
 }
 
 struct GifDataStructure: Decodable {
-    let data: [dataStructure]
+    let data: [DataStructure]
 }
 
-struct dataStructure: Decodable {
+struct DataStructure: Decodable {
     let id: String
     let url: String
+}
+
+struct GridItemDTO {
+    var index: Int
+    var gifID: String
+    var gifURL: String
+    var page: Int
 }

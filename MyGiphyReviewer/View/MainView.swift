@@ -9,7 +9,7 @@ import SwiftUI
 
 struct MainView: View {
     @ObservedObject var gifs: GifViewModel = GifViewModel()
-    @EnvironmentObject var gifAPI: GIPHYAPIViewModel
+    @EnvironmentObject var gifAPI: GIPHYAPIService
 
     var body: some View {
         VStack {
@@ -25,9 +25,9 @@ struct MainView: View {
             }
             ScrollView(showsIndicators: false) {
                 LazyVStack {
-                    MosaicGridView(gridItems: gifs.gridItems)
+                    MosaicGridView(gridItems: gifs.gridItems, gifs: _gifs)
                         .padding()
-                    switch gifAPI.loadingState {
+                    switch gifs.loadingState {
                         case .readyForFetch:
                             ZStack{
                                 Spacer()
@@ -35,7 +35,7 @@ struct MainView: View {
                                     .frame(height: 300)
                                     .task {
                                         Task {
-                                            print("state: \(gifAPI.loadingState)")
+                                            print("state: \(gifs.loadingState)")
                                             print("Loading more data")
                                             gifs.fetchRecords()
                                         }
@@ -61,7 +61,7 @@ struct MainView: View {
 
 struct MainView_Previews: PreviewProvider {
     static var previews: some View {
-        let gifAPI = GIPHYAPIViewModel()
+        let gifAPI = GIPHYAPIService()
         MainView()
             .environmentObject(gifAPI)
     }
