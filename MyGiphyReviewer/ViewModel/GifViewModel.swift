@@ -21,7 +21,7 @@ class GifViewModel: ObservableObject {
     func fetchRecords() {
         let url = giphyAPI.buildURLRequest(for: queryString)
         Task {
-            let gridItems = await giphyAPI.fetchMultipleRecords(url: url)
+            let gridItems = await giphyAPI.fetchGifs(url: url)
             await MainActor.run { [weak self] in
                 self?.gridItems.append(contentsOf: gridItems)
                 //self?.gridItems = gridItems
@@ -29,13 +29,3 @@ class GifViewModel: ObservableObject {
         }
     }
 }
-
-struct GifDataStructure: Decodable {
-    let data: [dataStructure]
-}
-
-struct dataStructure: Decodable {
-    let id: String
-    let url: String
-}
-

@@ -12,14 +12,26 @@ class GIPHYAPIViewModel: ObservableObject {
     private let cache: NSCache<NSString, NSData>
     private var apiKey = "91NSZN24dZULJSHQkAsOWynsEcR1xQBw"
     
+    private let limit: Int
+    var page: Int
+    var maxIndex: Int
+
     init(cache: NSCache<NSString, NSData> = .init()) {
-             self.cache = cache
-             self.cache.countLimit = 50
-         }
+        self.cache = cache
+        self.cache.countLimit = 50
+        self.page = 0
+        self.limit = 10
+        
+        self.maxIndex = 0
+    }
     
-    func buildURLRequest(for searchObject: String, limit: Int = 25, offset: Int = 0) -> URL {
-             URL(string:"https://api.giphy.com/v1/gifs/search?api_key=\(apiKey)&q=\(searchObject)&limit=\(limit)&offset=\(offset)&rating=g&lang=en")!
-         }
+    func buildURLRequest(for searchObject: String) -> URL {
+        let offset = page * limit
+        guard let url = URL(string:"https://api.giphy.com/v1/gifs/search?api_key=\(apiKey)&q=\(searchObject)&limit=\(self.limit)&offset=\(offset)&rating=g&lang=en") else {
+                    return URL(string: "https://api.giphy.com/v1/gifs/search?api_key=91NSZN24dZULJSHQkAsOWynsEcR1xQBw&q=memes&limit=25&offset=0&rating=g&lang=en")!
+                }
+        return url
+    }
     
     private func buildGIFURLString(for gifID: String) -> String {
         "https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExMDQyZjczZDAwYjkzZDQ1MjhkNmNhZDkyYzVhMTcxNzVlY2UxMzQwNSZlcD12MV9pbnRlcm5hbF9naWZzX2dpZklkJmN0PWc/" + gifID + "/giphy.gif"
@@ -49,7 +61,7 @@ class GIPHYAPIViewModel: ObservableObject {
         }
     }
     
-    func fetchMultipleRecords(url: URL) async -> [GifGridItem] {
+    func fetchGifs(url: URL) async -> [GifGridItem] {
         do {
             let response = try await URLSession.shared.data(from: url)
             let decodedGiphy = try JSONDecoder().decode(GifDataStructure.self, from: response.0)

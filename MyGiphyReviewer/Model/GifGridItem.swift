@@ -24,4 +24,11 @@ static let dataSample: GifGridItem = GifGridItem(height: 200.0, gifURL: "https:/
 #endif
 }
 
+struct GifDataStructure: Decodable {
+    let data: [dataStructure]
+}
 
+struct dataStructure: Decodable {
+    let id: String
+    let url: String
+}

@@ -12,7 +12,7 @@ struct MainView: View {
     @EnvironmentObject var gifAPI: GIPHYAPIViewModel
 
     var body: some View {
-        ScrollView(showsIndicators: false) {
+        VStack {
             ScrollView(.horizontal, showsIndicators: false) {
                 HStack {
                     ForEach(TabBarModel.allCases, id: \.self) { tabElement in
@@ -22,12 +22,18 @@ struct MainView: View {
                             .clipShape(Capsule())
                     }
                 }
-            }            
-            MosaicGridView(gridItems: gifs.gridItems)
-                .padding()
-        }
-        .task {
-            gifs.fetchRecords()
+            }        
+            ScrollView(showsIndicators: false) {
+                LazyVStack {
+                    MosaicGridView(gridItems: gifs.gridItems)
+                        .padding()
+                }
+                .task {
+                    gifs.fetchRecords()
+                }
+                
+                
+            }
         }
     }
 }
