@@ -22,7 +22,7 @@ class GIPHYAPIViewModel: ObservableObject {
         self.cache = cache
         self.cache.countLimit = 50
         self.page = 0
-        self.limit = 10
+        self.limit = 40
         
         self.maxIndex = 0
         
