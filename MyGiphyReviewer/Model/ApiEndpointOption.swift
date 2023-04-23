@@ -7,6 +7,7 @@
 
 import Foundation
 
+/// ApiEndpointOption - enum for API search options
 enum ApiEndpointOption: CaseIterable, Comparable {
     case trending
     case artists

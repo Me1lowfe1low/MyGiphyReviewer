@@ -29,7 +29,7 @@ struct SingleGifView: View {
                 }
              }
              .task {
-                 let data = await gifAPI.fetchOneSampleOfData(item: gridItem)
+                 let data = await gifAPI.fetchOneSampleOfData(gridItem)
                  await MainActor.run {
                      gridItem.gifData = data
                 }

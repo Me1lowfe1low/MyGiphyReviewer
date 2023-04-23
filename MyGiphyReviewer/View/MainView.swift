@@ -17,7 +17,9 @@ struct MainView: View {
                 HStack {
                     ForEach(ApiEndpointOption.allCases, id: \.self) { tabElement in
                         Button( action: {
-                            gifs.changeTab(endpoint: tabElement)
+                            if gifs.endpoint != tabElement {
+                                gifs.changeTab(endpoint: tabElement)
+                            }
                         }) {
                             Text(tabElement.title)
                                 .padding()
@@ -36,34 +38,34 @@ struct MainView: View {
                         .padding()
                     switch gifs.loadingState {
                         case .readyForFetch:
-                            ZStack{
-                                Spacer()
-                                Color.clear
-                                    .frame(height: 300)
-                                    .task {
-                                        Task {
-                                            print("state: \(gifs.loadingState)")
-                                            print("Loading more data")
-                                            gifs.fetchRecords()
-                                        }
-                                    }
+                            Color.clear
+                            .task {
+                                Task {
+                                    print("state: \(gifs.loadingState)")
+                                    print("Loading more data")
+                                    gifs.fetchRecords()
+                                }
                             }
                         case .isLoading:
                             ProgressView()
                                 .progressViewStyle(.circular)
                         case .initialState:
-                            Color.yellow
+                            Color.clear
                                 .task {
-                                    gifs.fetchRecords()
+                                    Task {
+                                        print("state: \(gifs.loadingState)")
+                                        print("Initial load")
+                                        gifs.fetchRecords()
+                                    }
                                 }
+                            
+                        case .allIsLoaded:
+                            EmptyView()
                         case .error(let error):
                             Text(error)
                                 .font(.title)
                     }
                 }
-//                .task {
-//                    gifs.fetchRecords()
-//                }
             }
         }
     }

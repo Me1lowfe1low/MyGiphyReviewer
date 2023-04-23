@@ -7,6 +7,7 @@
 
 import Foundation
 
+/// DTO for communication between ViewModel and  GIPHY API Service
 struct URLDataModel {
     var searchObject: String
     var limit:  Int = 10
