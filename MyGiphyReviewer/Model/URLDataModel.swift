@@ -7,10 +7,12 @@
 
 import Foundation
 
+/// DTO for communication between ViewModel and  GIPHY API Service
 struct URLDataModel {
     var searchObject: String
     var limit:  Int = 10
     var offset: Int = 0
     var rating: String = "g"
     var lang: String = "en"
+    var endpoint: ApiEndpointOption = .trending
 }

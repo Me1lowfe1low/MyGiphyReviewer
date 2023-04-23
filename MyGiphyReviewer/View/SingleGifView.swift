@@ -10,21 +10,16 @@ import SwiftUI
 struct SingleGifView: View {
     @EnvironmentObject var gifAPI: GIPHYAPIService
     @State var gridItem: GifGridItem
-    @State var sheetIsOpened = false
     @ObservedObject var gifs: GifViewModel
     
     var body: some View {
         ZStack {
             GeometryReader { geoProxy in
                 if let data = gridItem.gifData, !gridItem.gifData!.isEmpty {
-                    Button(action: { sheetIsOpened.toggle() })
-                    {
+                    NavigationLink(destination: ExportShareView(gifs: gifs, gridItem: gridItem)) {
                         GIFImage(data: data)
                             .scaledToFill()
                             .frame(width: geoProxy.size.width, height: geoProxy.size.height, alignment: .center)
-                    }
-                    .sheet(isPresented: $sheetIsOpened) {
-                        ExportShareView(gridItem: gridItem, state: $sheetIsOpened, gifs: gifs)
                     }
                 }
                 else {
@@ -34,7 +29,7 @@ struct SingleGifView: View {
                 }
              }
              .task {
-                 let data = await gifAPI.fetchOneSampleOfData(item: gridItem)
+                 let data = await gifAPI.fetchOneSampleOfData(gridItem)
                  await MainActor.run {
                      gridItem.gifData = data
                 }

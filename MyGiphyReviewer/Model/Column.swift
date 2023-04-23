@@ -7,6 +7,7 @@
 
 import Foundation
 
+/// Column struct holds data for mosaic grid
 struct Column: Identifiable {
     let id = UUID()
     var gridItems = [GifGridItem]()

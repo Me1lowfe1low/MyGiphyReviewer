@@ -15,45 +15,57 @@ struct MainView: View {
         VStack {
             ScrollView(.horizontal, showsIndicators: false) {
                 HStack {
-                    ForEach(TabBarModel.allCases, id: \.self) { tabElement in
-                        Text(tabElement.title)
-                            .padding()
-                            .background(.yellow)
-                            .clipShape(Capsule())
+                    ForEach(ApiEndpointOption.allCases, id: \.self) { tabElement in
+                        Button( action: {
+                            if gifs.endpoint != tabElement {
+                                gifs.changeTab(endpoint: tabElement)
+                            }
+                        }) {
+                            Text(tabElement.title)
+                                .padding()
+                                .background(.purple.opacity(tabElement == gifs.endpoint ? 1.0 : 0.0))
+                                
+                                .clipShape(Capsule())
+                        }
+                        .buttonStyle(.plain)
                     }
                 }
             }
             ScrollView(showsIndicators: false) {
                 LazyVStack {
                     MosaicGridView(gridItems: gifs.gridItems, gifs: _gifs)
+                        .environmentObject(gifAPI)
                         .padding()
                     switch gifs.loadingState {
                         case .readyForFetch:
-                            ZStack{
-                                Spacer()
-                                Color.clear
-                                    .frame(height: 300)
-                                    .task {
-                                        Task {
-                                            print("state: \(gifs.loadingState)")
-                                            print("Loading more data")
-                                            gifs.fetchRecords()
-                                        }
-                                    }
+                            Color.clear
+                            .task {
+                                Task {
+                                    print("state: \(gifs.loadingState)")
+                                    print("Loading more data")
+                                    gifs.fetchRecords()
+                                }
                             }
                         case .isLoading:
                             ProgressView()
                                 .progressViewStyle(.circular)
                         case .initialState:
-                            Color.yellow
+                            Color.clear
+                                .task {
+                                    Task {
+                                        print("state: \(gifs.loadingState)")
+                                        print("Initial load")
+                                        gifs.fetchRecords()
+                                    }
+                                }
+                            
+                        case .allIsLoaded:
+                            EmptyView()
                         case .error(let error):
                             Text(error)
                                 .font(.title)
                     }
                 }
-//                .task {
-//                    gifs.fetchRecords()
-//                }
             }
         }
     }

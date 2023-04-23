@@ -10,30 +10,15 @@ import Photos
 
 
 struct ExportShareView: View {
-    @State var gridItem: GifGridItem
-    @Binding var state: Bool
-    private let pastboard = UIPasteboard.general
-    //@ObservedObject var gifAPI: GIPHYAPIViewModel = GIPHYAPIViewModel()
-    @State var imagePath: String = ""
-    //@EnvironmentObject var gifAPI: GIPHYAPIViewModel
+    @Environment(\.dismiss) var dismiss
     @ObservedObject var gifs: GifViewModel
+    @State var gridItem: GifGridItem
+    private let pastboard = UIPasteboard.general
+    @State var imagePath: String = ""
+    
     
     var body: some View {
         VStack {
-            HStack{
-                Button(action: dismissSheet ) {
-                    Image(systemName: "xmark")
-                }
-                .buttonStyle(.plain)
-                Spacer()
-                //Text(imagePath)
-                Spacer()
-                Button(action: saveGIFToPhotos ) {
-                    Image(systemName: "square.and.arrow.up")
-                }
-                .buttonStyle(.plain)
-            }
-            .padding()
             if let data = gridItem.gifData {
                 GIFImage(data: data)
                     .scaledToFit()
@@ -55,10 +40,25 @@ struct ExportShareView: View {
                 Spacer()
             }
         }
+        .navigationBarBackButtonHidden(true)
+        .toolbar {
+            ToolbarItem(placement: .cancellationAction) {
+                Button(action: dismissSheet ) {
+                    Image(systemName: "xmark")
+                }
+                .buttonStyle(.plain)
+            }
+            ToolbarItem(placement: .primaryAction) {
+                Button(action: saveGIFToPhotos ) {
+                    Image(systemName: "square.and.arrow.up")
+                }
+                .buttonStyle(.plain)
+            }
+        }
     }
     
     func dismissSheet() {
-        self.state.toggle()
+        dismiss()
     }
     
     func copyGIFLink() {
@@ -78,6 +78,6 @@ struct ExportShareView: View {
 
 struct ExportShareView_Previews: PreviewProvider {
     static var previews: some View {
-        ExportShareView(gridItem: GifGridItem.dataSample, state: .constant(false), gifs: GifViewModel())
+        ExportShareView(gifs: GifViewModel(), gridItem: GifGridItem.dataSample)
     }
 }

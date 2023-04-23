@@ -9,8 +9,7 @@ import SwiftUI
 
 struct ContentView: View {
     var body: some View {
-        let gifAPI = GIPHYAPIService()
-        
+        let gifAPI: GIPHYAPIService = GIPHYAPIService()
         VStack {
             NavigationView {
                 MainView()

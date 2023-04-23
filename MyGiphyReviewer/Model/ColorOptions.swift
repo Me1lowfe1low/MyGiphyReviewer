@@ -7,6 +7,7 @@
 
 import SwiftUI
 
+/// ColorOptions - supplmental enum for gird colours
 enum ColorOptions: Int, CaseIterable {
     case first = 0
     case second
