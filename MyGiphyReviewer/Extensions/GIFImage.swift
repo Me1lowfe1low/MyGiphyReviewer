@@ -15,11 +15,7 @@ struct GIFImage: UIViewRepresentable {
     }
     
     func makeUIView(context: Context) -> UIGIFImage {
-        if let data = data {
-            return UIGIFImage(data: data)
-        } else {
-            return UIGIFImage()
-        }
+        data.map { UIGIFImage(data: $0) } ?? UIGIFImage()
     }
     
     func updateUIView(_ uiView: UIGIFImage, context: Context) {

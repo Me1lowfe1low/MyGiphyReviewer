@@ -13,15 +13,16 @@ struct ExportShareView: View {
     @Environment(\.dismiss) var dismiss
     @ObservedObject var gifs: GifViewModel
     @State var gridItem: GifGridItem
-    private let pastboard = UIPasteboard.general
     @State var imagePath: String = ""
+    private let pastboard = UIPasteboard.general
     
     
     var body: some View {
         VStack {
             if let data = gridItem.gifData {
                 GIFImage(data: data)
-                    .scaledToFit()
+                    .frame(maxWidth: UIScreen.main.bounds.width, maxHeight: UIScreen.main.bounds.width)
+                    .aspectRatio(1, contentMode: .fit)
             }
             Spacer()
             Group {

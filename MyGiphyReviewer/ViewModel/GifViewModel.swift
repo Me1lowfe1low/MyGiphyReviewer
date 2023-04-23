@@ -18,25 +18,28 @@ class GifViewModel: ObservableObject {
     @Published var endpoint: ApiEndpointOption
     private let logger: Logger
     private let giphyAPI: GIPHYAPIService
-    
     private var searchObject: String
-    
     private let limit: Int
     var page: Int
     var maxIndex: Int
     
-    init(queryString: String = "", giphyAPI: GIPHYAPIService = GIPHYAPIService()) {
+    init(queryString: String = "",
+         giphyAPI: GIPHYAPIService = GIPHYAPIService(),
+         logger: Logger = Logger(subsystem: "MyGiphyReviewer", category: "GifViewModel"),
+         endpoint: ApiEndpointOption = .trending,
+         loadingState: LoadingState = .initialState,
+         maxIndex: Int = 0,
+         limit: Int = 10,
+         page: Int = 0
+    ) {
         self.searchObject = queryString
-        self.logger = Logger(subsystem: "MyGiphyReviewer", category: "GifViewModel")
         self.giphyAPI = giphyAPI
-        self.endpoint = .trending
-        
-        self.page = 0
-        self.limit = 10
-        
-        self.maxIndex = 0
-        
-        self.loadingState = .initialState
+        self.logger = logger
+        self.loadingState = loadingState
+        self.endpoint = endpoint
+        self.maxIndex = maxIndex
+        self.limit = limit
+        self.page = page 
     }
     
     /// Method to errase data on tab changing
@@ -69,7 +72,7 @@ extension GifViewModel {
             await MainActor.run { [weak self] in
                 fetchedData.data.forEach { gifData in
                     let randomHeight = CGFloat.random(in: 100 ... 400)
-                    let gifURL: String = (self?.buildGIFURLString(for: gifData.id))!
+                    let gifURL: String = giphyAPI.buildGIFURLString(for: gifData.id)
                     logger.debug("Current url: \(gifURL)")
                     self?.gridItems.append(GifGridItem(index: self?.maxIndex ?? 0, height: randomHeight, gifURL: gifURL, gifGIPHYURL: gifData.url, gifID: gifData.id))
                     self?.maxIndex += 1
@@ -105,11 +108,6 @@ extension GifViewModel {
             }
         }
         self.searchObject = searchOption
-    }
-    
-    /// Method to recreate URL for gif
-    private func buildGIFURLString(for gifID: String) -> String {
-        "https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExMDQyZjczZDAwYjkzZDQ1MjhkNmNhZDkyYzVhMTcxNzVlY2UxMzQwNSZlcD12MV9pbnRlcm5hbF9naWZzX2dpZklkJmN0PWc/" + gifID + "/giphy.gif"
     }
     
     /// Method to provide new gif name with current timestamp to make it unique

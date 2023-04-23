@@ -40,9 +40,6 @@ extension UIImage {
     }
 }
 
-
-
-
 private func gcd(_ a: Int, _ b: Int) -> Int {
     let absB = abs(b)
     let r = abs(a) % absB

@@ -25,28 +25,30 @@ class GIPHYAPIService: ObservableObject {
     /// Gathering URL string accoridng to the chosen endpoint
     func parseEndpoint(for urlData: URLDataModel) -> String {
         var tempURL = ""
-        let prefix = "https://"
+        let prefix = "https://api.giphy.com"
+        let version = "v1"
         logger.trace("limit: \(urlData.limit), offset: \(urlData.offset)")
+        
         switch urlData.endpoint {
             case .trending:
-                let gifURL = "api.giphy.com/v1/gifs/trending?api_key="
-                tempURL = prefix + gifURL + self.apiKey + "&limit=\(urlData.limit)&offset=\(urlData.offset)&rating=" + urlData.rating
+                let option = "trending"
+                tempURL = "\(prefix)/\(version)/gifs/\(option)?api_key=\(self.apiKey)&limit=\(urlData.limit)&offset=\(urlData.offset)&rating=\(urlData.rating)"
                 return tempURL
             case .artists:
-                let gifURL = "api.giphy.com/v1/gifs/search?api_key="
-                tempURL = prefix + gifURL + self.apiKey + "&q=" + urlData.searchObject + "&limit=\(urlData.limit)&offset=\(urlData.offset)&rating=" + urlData.rating + "&lang=" + urlData.lang
+                let option = "search"
+                tempURL = "\(prefix)/\(version)/gifs/\(option)?api_key=\(self.apiKey)&q=\(urlData.searchObject)&limit=\(urlData.limit)&offset=\(urlData.offset)&rating=\(urlData.rating)&lang=\(urlData.lang)"
                 return tempURL
             case .clips:
-                let gifURL = "api.giphy.com/v1/gifs/search?api_key="
-                tempURL = prefix + gifURL + self.apiKey + "&q=" + urlData.searchObject + "&limit=\(urlData.limit)&offset=\(urlData.offset)&rating=" + urlData.rating + "&lang=" + urlData.lang
+                let option = "search"
+                tempURL = "\(prefix)/\(version)/gifs/\(option)?api_key=\(self.apiKey)&q=\(urlData.searchObject)&limit=\(urlData.limit)&offset=\(urlData.offset)&rating=\(urlData.rating)&lang=\(urlData.lang)"
                 return tempURL
             case .stories:
-                let gifURL = "api.giphy.com/v1/gifs/search?api_key="
-                tempURL = prefix + gifURL + self.apiKey + "&q=" + urlData.searchObject + "&limit=\(urlData.limit)&offset=\(urlData.offset)&rating=" + urlData.rating + "&lang=" + urlData.lang
+                let option = "search"
+                tempURL = "\(prefix)/\(version)/gifs/\(option)?api_key=\(self.apiKey)&q=\(urlData.searchObject)&limit=\(urlData.limit)&offset=\(urlData.offset)&rating=\(urlData.rating)&lang=\(urlData.lang)"
                 return tempURL
             case .stickers:
-                let gifURL = "api.giphy.com/v1/stickers/trending?api_key="
-                tempURL = prefix + gifURL + self.apiKey + "&limit=\(urlData.limit)&offset=\(urlData.offset)&rating=" + urlData.rating
+                let option = "stickers/trending"
+                tempURL = "\(prefix)/\(version)/gifs/\(option)?api_key=\(self.apiKey)&limit=\(urlData.limit)&offset=\(urlData.offset)&rating=\(urlData.rating)"
                 return tempURL
         }
     }
@@ -60,6 +62,16 @@ class GIPHYAPIService: ObservableObject {
             return URL(string: "https://api.giphy.com/v1/gifs/search?api_key=91NSZN24dZULJSHQkAsOWynsEcR1xQBw&q=memes&limit=25&offset=0&rating=g&lang=en")!
         }
         return url
+    }
+    
+    /// Method to recreate URL for gif
+    func buildGIFURLString(for gifID: String) -> String {
+        let prefix = "https://media.giphy.com/media"
+        let version = "v1"
+        let keyPartOne = "Y2lkPTc5MGI3NjExMDQyZjczZDAwYjkzZDQ1MjhkNmNhZDkyYzVhMTcx"
+        let keyPartTwo = "NzVlY2UxMzQwNSZlcD12MV9pbnRlcm5hbF9naWZzX2dpZklkJmN0PWc"
+        let fileExtension = "giphy.gif"
+        return "\(prefix)/\(version).\(keyPartOne)\(keyPartTwo)/\(gifID)/\(fileExtension)"
     }
     
     /// Method to load GIF file from the single URL string.
