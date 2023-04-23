@@ -15,11 +15,17 @@ struct MainView: View {
         VStack {
             ScrollView(.horizontal, showsIndicators: false) {
                 HStack {
-                    ForEach(TabBarModel.allCases, id: \.self) { tabElement in
-                        Text(tabElement.title)
-                            .padding()
-                            .background(.yellow)
-                            .clipShape(Capsule())
+                    ForEach(ApiEndpointOption.allCases, id: \.self) { tabElement in
+                        Button( action: {
+                            gifs.changeTab(endpoint: tabElement)
+                        }) {
+                            Text(tabElement.title)
+                                .padding()
+                                .background(.purple.opacity(tabElement == gifs.endpoint ? 1.0 : 0.0))
+                                
+                                .clipShape(Capsule())
+                        }
+                        .buttonStyle(.plain)
                     }
                 }
             }
@@ -47,6 +53,9 @@ struct MainView: View {
                                 .progressViewStyle(.circular)
                         case .initialState:
                             Color.yellow
+                                .task {
+                                    gifs.fetchRecords()
+                                }
                         case .error(let error):
                             Text(error)
                                 .font(.title)

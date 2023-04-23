@@ -1,5 +1,5 @@
 // Created for MyGiphyReviewer on 21.04.2023
-//  TabBarModel.swift
+//  ApiEndpointOption.swift
 //  MyGiphyReviewer
 //
 //
@@ -7,7 +7,7 @@
 
 import Foundation
 
-enum TabBarModel: CaseIterable {
+enum ApiEndpointOption: CaseIterable, Comparable {
     case trending
     case artists
     case clips

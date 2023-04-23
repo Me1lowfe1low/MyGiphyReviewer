@@ -12,17 +12,20 @@ import Photos
 class GifViewModel: ObservableObject {
     @Published var gridItems = [GifGridItem]()
     @Published var loadingState: LoadingState
+    @Published var endpoint: ApiEndpointOption
     private let giphyAPI: GIPHYAPIService
     
-    private let searchObject: String
+    private var searchObject: String
     
     private let limit: Int
     var page: Int
     var maxIndex: Int
     
-    init(queryString: String = "dogs", giphyAPI: GIPHYAPIService = GIPHYAPIService()) {
+    
+    init(queryString: String = "", giphyAPI: GIPHYAPIService = GIPHYAPIService()) {
         self.searchObject = queryString
         self.giphyAPI = giphyAPI
+        self.endpoint = .trending
         
         self.page = 0
         self.limit = 10
@@ -31,19 +34,28 @@ class GifViewModel: ObservableObject {
         
         self.loadingState = .readyForFetch
     }
+    
+    func changeTab(endpoint: ApiEndpointOption) {
+        self.endpoint = endpoint
+        self.gridItems = []
+        self.loadingState = .initialState
+    }
 }
+
 
 extension GifViewModel {
     
     func fetchRecords() {
-        let url = buildURLRequest(for: searchObject)
+        let url = buildURLRequest(endpoint: endpoint, for: searchObject)
         Task {
             self.loadingState = .isLoading
             let fetchedData = await giphyAPI.fetchGifs(url: url)
             await MainActor.run { [weak self] in
                 fetchedData.data.forEach { gifData in
+                   
                     let randomHeight = CGFloat.random(in: 100 ... 400)
                     let gifURL: String = (self?.buildGIFURLString(for: gifData.id))!
+                    print(gifURL)
                     self?.gridItems.append(GifGridItem(index: self?.maxIndex ?? 0, height: randomHeight, gifURL: gifURL, gifGIPHYURL: gifData.url, gifID: gifData.id))
                     print(self?.maxIndex)
                     self?.maxIndex += 1
@@ -58,13 +70,29 @@ extension GifViewModel {
 }
 
 extension GifViewModel {
-    func buildURLRequest(for searchObject: String) -> URL {
+    func buildURLRequest(endpoint: ApiEndpointOption, for searchObject: String) -> URL {
         let offset: Int = self.page * self.limit
-        let urlData: URLDataModel = URLDataModel(searchObject: self.searchObject, limit: self.limit, offset: offset, rating: "g", lang: "en")
+        let urlData: URLDataModel = URLDataModel(searchObject: self.searchObject, limit: self.limit, offset: offset, rating: "g", lang: "en", endpoint: endpoint)
+        
         let url = giphyAPI.prepareURL(for: urlData)
+        print(url)
         return url
     }
-
+    
+    func updateSearchObject(tab: ApiEndpointOption) {
+        var searchOption: String {
+            switch tab {
+                case .trending:
+                    return ""
+                case .stickers:
+                    return ""
+                default:
+                    return tab.title
+            }
+        }
+        self.searchObject = searchOption
+    }
+    
     private func buildGIFURLString(for gifID: String) -> String {
         "https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExMDQyZjczZDAwYjkzZDQ1MjhkNmNhZDkyYzVhMTcxNzVlY2UxMzQwNSZlcD12MV9pbnRlcm5hbF9naWZzX2dpZklkJmN0PWc/" + gifID + "/giphy.gif"
     }
@@ -79,7 +107,6 @@ extension GifViewModel {
 }
 
 extension GifViewModel {
-
     func saveGifFile(_ item: GifGridItem) async {
         do {
             let gifData = await giphyAPI.downloadGIFFile(item)
@@ -97,6 +124,5 @@ extension GifViewModel {
         } catch let error {
             print(error.localizedDescription)
         }
-        
     }
 }

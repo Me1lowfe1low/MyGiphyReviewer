@@ -13,4 +13,5 @@ struct URLDataModel {
     var offset: Int = 0
     var rating: String = "g"
     var lang: String = "en"
+    var endpoint: ApiEndpointOption = .trending
 }

@@ -10,17 +10,44 @@ import Foundation
 class GIPHYAPIService: ObservableObject {
     private let cache: NSCache<NSString, NSData>
     private let apiKey: String = "91NSZN24dZULJSHQkAsOWynsEcR1xQBw"
-    private let prefix: String = "https://api.giphy.com/v1/gifs/search?api_key="
     
     init(cache: NSCache<NSString, NSData> = .init()) {
         self.cache = cache
         self.cache.countLimit = 50
     }
     
+    func parseEndpoint(for urlData: URLDataModel) -> String {
+        var tempURL = ""
+        let prefix = "https://"
+        switch urlData.endpoint {
+            case .trending:
+                let gifURL = "api.giphy.com/v1/gifs/trending?api_key="
+                tempURL = prefix + gifURL + self.apiKey + "&limit=\(urlData.limit)&offset=\(urlData.offset)&rating=" + urlData.rating
+                return tempURL
+            case .artists:
+                let gifURL = "api.giphy.com/v1/gifs/search?api_key="
+                tempURL = prefix + gifURL + self.apiKey + "&q=" + urlData.searchObject + "&limit=\(urlData.limit)&offset=\(urlData.offset)&rating=" + urlData.rating + "&lang=" + urlData.lang
+                return tempURL
+            case .clips:
+                let gifURL = "api.giphy.com/v1/gifs/search?api_key="
+                tempURL = prefix + gifURL + self.apiKey + "&q=" + urlData.searchObject + "&limit=\(urlData.limit)&offset=\(urlData.offset)&rating=" + urlData.rating + "&lang=" + urlData.lang
+                return tempURL
+            case .stories:
+                let gifURL = "api.giphy.com/v1/gifs/search?api_key="
+                tempURL = prefix + gifURL + self.apiKey + "&q=" + urlData.searchObject + "&limit=\(urlData.limit)&offset=\(urlData.offset)&rating=" + urlData.rating + "&lang=" + urlData.lang
+                return tempURL
+            case .stickers:
+                let gifURL = "api.giphy.com/v1/stickers/trending?api_key="
+                tempURL = prefix + gifURL + self.apiKey + "&limit=\(urlData.limit)&offset=\(urlData.offset)&rating=" + urlData.rating
+                return tempURL
+        }
+    }
+    
     func prepareURL(for urlData: URLDataModel) -> URL {
-        let tempURL = prefix + apiKey + "&q=" + urlData.searchObject + "&limit=\(urlData.limit)&offset=\(urlData.offset)&rating=" + urlData.rating + "&lang=" + urlData.lang
+        let tempURL = parseEndpoint(for: urlData)
         
         guard let url = URL(string: tempURL) else {
+            print("Providing default URL, some issues occured")
             return URL(string: "https://api.giphy.com/v1/gifs/search?api_key=91NSZN24dZULJSHQkAsOWynsEcR1xQBw&q=memes&limit=25&offset=0&rating=g&lang=en")!
         }
         return url
@@ -74,3 +101,6 @@ class GIPHYAPIService: ObservableObject {
         }
     }
 }
+
+
+
