@@ -30,7 +30,7 @@ struct MosaicGridView: View {
         /// Placing items in the grid with coplience to their sizes
         for gridItem in gridItems {
             var smallestColumnIndex = 0
-            var smallestHeight = columnsHeight.[0]
+            var smallestHeight = columnsHeight[0]
             for i in 1 ..< columnsHeight.count {
                 let currentHeight = columnsHeight[i]
                 if currentHeight < smallestHeight {

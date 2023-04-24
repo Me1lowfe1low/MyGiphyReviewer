@@ -18,7 +18,7 @@ struct SingleGifView: View {
                 if let data = gridItem.gifData, !gridItem.gifData!.isEmpty {
                     NavigationLink(destination: ExportShareView(gifs: gifs, gridItem: gridItem)) {
                         GIFImage(data: data)
-                            .scaledToFit()
+                            .scaledToFill()
                             .frame(width: geoProxy.size.width, height: geoProxy.size.height, alignment: .center)
                     }
                 }

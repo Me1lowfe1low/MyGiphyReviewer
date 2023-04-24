@@ -24,12 +24,12 @@ struct MainView: View {
                             Text(tabElement.title)
                                 .padding()
                                 .background(.purple.opacity(tabElement == gifs.endpoint ? 1.0 : 0.0))
-                                
                                 .clipShape(Capsule())
                         }
                         .buttonStyle(.plain)
                     }
                 }
+                .padding(.horizontal)
             }
             ScrollView(showsIndicators: false) {
                 LazyVStack {
