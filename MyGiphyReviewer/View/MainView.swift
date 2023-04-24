@@ -33,7 +33,7 @@ struct MainView: View {
             }
             ScrollView(showsIndicators: false) {
                 LazyVStack {
-                    MosaicGridView(gridItems: gifs.gridItems, gifs: _gifs)
+                    MosaicGridView(gifs: _gifs)
                         .environmentObject(gifAPI)
                         .padding()
                     switch gifs.loadingState {
@@ -58,7 +58,6 @@ struct MainView: View {
                                         gifs.fetchRecords()
                                     }
                                 }
-                            
                         case .allIsLoaded:
                             EmptyView()
                         case .error(let error):

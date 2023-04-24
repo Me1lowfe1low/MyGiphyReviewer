@@ -23,6 +23,9 @@ class GifViewModel: ObservableObject {
     var page: Int
     var maxIndex: Int
     
+    var columns = [Column](repeating: Column(), count: 2)
+    var columnsHeight = [CGFloat](repeating: 0, count: 2)
+    
     init(queryString: String = "",
          giphyAPI: GIPHYAPIService = GIPHYAPIService(),
          logger: Logger = Logger(subsystem: "MyGiphyReviewer", category: "GifViewModel"),
@@ -49,6 +52,8 @@ class GifViewModel: ObservableObject {
         updateSearchObject(tab: endpoint)
         self.loadingState = .initialState
         self.page = 0
+        self.columns = [Column](repeating: Column(), count: 2)
+        self.columnsHeight = [CGFloat](repeating: 0, count: 2)
         logger.trace("current tab: \(endpoint.title)")
         logger.trace("state: \(self.loadingState.readableFormat), gridCount: \(self.gridItems.count), page: \(self.page)")
     }
@@ -69,17 +74,35 @@ extension GifViewModel {
             self.loadingState = .isLoading
             logger.trace("Current state: \(self.loadingState.readableFormat)")
             let fetchedData = await giphyAPI.fetchGifs(url: url)
+            var localColumns = self.columns
+            
             await MainActor.run { [weak self] in
                 fetchedData.data.forEach { gifData in
                     let randomHeight = CGFloat.random(in: 100 ... 400)
                     let gifURL: String = giphyAPI.buildGIFURLString(for: gifData.id)
                     logger.debug("Current url: \(gifURL)")
-                    self?.gridItems.append(GifGridItem(index: self?.maxIndex ?? 0, height: randomHeight, gifURL: gifURL, gifGIPHYURL: gifData.url, gifID: gifData.id))
+                    let tempGridItem = GifGridItem(index: self?.maxIndex ?? 0, height: randomHeight, gifURL: gifURL, gifGIPHYURL: gifData.url, gifID: gifData.id)
+                    self?.gridItems.append(tempGridItem)
                     self?.maxIndex += 1
                     print("\(self?.maxIndex)")
                     self?.loadingState = (fetchedData.data.count == self?.limit) ? .readyForFetch : .allIsLoaded
+                    
+                    var smallestColumnIndex = 0
+                    var smallestHeight = self?.columnsHeight[0] ?? 100
+                    for i in 1 ..< 2 {
+                        let currentHeight = self?.columnsHeight[i] ?? 100
+                        if currentHeight < smallestHeight {
+                            smallestHeight = currentHeight
+                            smallestColumnIndex = i
+                        }
+                    }
+                    /// Increasing size of the column
+                    localColumns[smallestColumnIndex].gridItems.append(tempGridItem)
+                    self?.columnsHeight[smallestColumnIndex] += tempGridItem.height
                 }
                 self?.page += 1
+                self?.columns = localColumns
+                print("Columns \(localColumns)")
             }
         }
         logger.trace("FetchRecords end state: \(self.loadingState.readableFormat)")
