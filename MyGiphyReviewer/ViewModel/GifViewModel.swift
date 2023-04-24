@@ -9,7 +9,6 @@ import Foundation
 import Photos
 import OSLog
 
-
 /// View Model for grid view
 @MainActor
 class GifViewModel: ObservableObject {
@@ -78,20 +77,23 @@ extension GifViewModel {
             
             await MainActor.run { [weak self] in
                 fetchedData.data.forEach { gifData in
-                    let randomHeight = CGFloat.random(in: 100 ... 400)
+                    let randomHeight = CGFloat.random(in: 100 ... 300)
                     let gifURL: String = giphyAPI.buildGIFURLString(for: gifData.id)
                     logger.debug("Current url: \(gifURL)")
                     let tempGridItem = GifGridItem(index: self?.maxIndex ?? 0, height: randomHeight, gifURL: gifURL, gifGIPHYURL: gifData.url, gifID: gifData.id)
                     self?.gridItems.append(tempGridItem)
                     self?.maxIndex += 1
-                    print("\(self?.maxIndex)")
                     self?.loadingState = (fetchedData.data.count == self?.limit) ? .readyForFetch : .allIsLoaded
-                    
                     var smallestColumnIndex = 0
-                    var smallestHeight = self?.columnsHeight[0] ?? 100
+                    guard var smallestHeight = self?.columnsHeight[0] else {
+                        return
+                    }
+    
                     for i in 1 ..< 2 {
-                        let currentHeight = self?.columnsHeight[i] ?? 100
-                        if currentHeight < smallestHeight {
+                        guard let currentHeight = self?.columnsHeight[i] else {
+                            return
+                        }
+                        if currentHeight <= smallestHeight {
                             smallestHeight = currentHeight
                             smallestColumnIndex = i
                         }
@@ -102,7 +104,6 @@ extension GifViewModel {
                 }
                 self?.page += 1
                 self?.columns = localColumns
-                print("Columns \(localColumns)")
             }
         }
         logger.trace("FetchRecords end state: \(self.loadingState.readableFormat)")
