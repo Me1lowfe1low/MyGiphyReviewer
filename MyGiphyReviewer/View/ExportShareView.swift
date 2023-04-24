@@ -16,7 +16,6 @@ struct ExportShareView: View {
     @State var imagePath: String = ""
     private let pastboard = UIPasteboard.general
     
-    
     var body: some View {
         VStack {
             if let data = gridItem.gifData {

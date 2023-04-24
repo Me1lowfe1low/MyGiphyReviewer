@@ -12,7 +12,6 @@ struct SingleGifView: View {
     @ObservedObject var gifs: GifViewModel
     @State var gridItem: GifGridItem
     
-    
     var body: some View {
         ZStack {
             GeometryReader { geoProxy in
