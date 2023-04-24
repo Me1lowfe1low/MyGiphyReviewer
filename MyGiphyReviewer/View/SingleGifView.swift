@@ -45,7 +45,7 @@ struct SingleGifView: View {
 struct SingleGifView_Previews: PreviewProvider {
     static var previews: some View {
         let gifAPI = GIPHYAPIService()
-        SingleGifView(gridItem: GifGridItem.dataSample, gifs: GifViewModel())
+        SingleGifView(gifs: GifViewModel(), gridItem: GifGridItem.dataSample)
             .environmentObject(gifAPI)
     }
 }
