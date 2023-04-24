@@ -8,6 +8,7 @@
 import UIKit
 
 extension UIImage {
+    /// Method for creating animated image
     class func gifImage(data: Data) -> UIImage? {
         guard let source = CGImageSourceCreateWithData(data as CFData, nil)
         else {
@@ -19,7 +20,7 @@ extension UIImage {
             Int(delayForImage(at: $0, source: source) * 1000)
         }
         let duration = delays.reduce(0, +)
-        let gcd = delays.reduce(0, gcd)
+        let gcd = delays.reduce(0, findGeneralCommonDivisor)
         
         var frames = [UIImage]()
         for i in 0..<count {
@@ -40,22 +41,22 @@ extension UIImage {
     }
 }
 
-
-
-
-private func gcd(_ a: Int, _ b: Int) -> Int {
+private func findGeneralCommonDivisor(_ a: Int, _ b: Int) -> Int {
     let absB = abs(b)
     let r = abs(a) % absB
     if r != 0 {
-        return gcd(absB, r)
+        return findGeneralCommonDivisor(absB, r)
     } else {
         return absB
     }
 }
 
+
+/// Calculate image delay
 private func delayForImage(at index: Int, source: CGImageSource) -> Double {
     let defaultDelay = 1.0
     
+    // Return the metadata of the image at `index' in the image source.
     let cfProperties = CGImageSourceCopyPropertiesAtIndex(source, index, nil)
     let gifPropertiesPointer = UnsafeMutablePointer<UnsafeRawPointer?>.allocate(capacity: 0)
     defer {
@@ -80,17 +81,5 @@ private func delayForImage(at index: Int, source: CGImageSource) -> Double {
         return delay
     } else {
         return defaultDelay
-    }
-}
-
-
-extension UIImage {
-    class func gifImage(name: String) -> UIImage? {
-        guard let url = Bundle.main.url(forResource: name, withExtension: "gif"),
-              let data = try? Data(contentsOf: url)
-        else {
-            return nil
-        }
-        return gifImage(data: data)
     }
 }

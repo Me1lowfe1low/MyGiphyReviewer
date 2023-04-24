@@ -1,14 +1,13 @@
-//
-//  MyGiphyReviewerTests.swift
+// Created for MyGiphyReviewer on 23.04.2023
+//  GIPHYAPIServiceTestStack.swift
 //  MyGiphyReviewerTests
 //
-//  Created by Dmitrii Gordienko on 19.04.2023.
 //
+//    dmgordienko@gmail.com 2023
 
-import XCTest
-@testable import MyGiphyReviewer
+import Foundation
 
-final class MyGiphyReviewerTests: XCTestCase {
+final class GIPHYAPIServiceTestStack: XCTestCase {
 
     override func setUpWithError() throws {
         // Put setup code here. This method is called before the invocation of each test method in the class.
@@ -17,7 +16,7 @@ final class MyGiphyReviewerTests: XCTestCase {
     override func tearDownWithError() throws {
         // Put teardown code here. This method is called after the invocation of each test method in the class.
     }
- 
+
     func testExample() throws {
         // This is an example of a functional test case.
         // Use XCTAssert and related functions to verify your tests produce the correct results.

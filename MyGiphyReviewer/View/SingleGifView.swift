@@ -9,8 +9,8 @@ import SwiftUI
 
 struct SingleGifView: View {
     @EnvironmentObject var gifAPI: GIPHYAPIService
-    @State var gridItem: GifGridItem
     @ObservedObject var gifs: GifViewModel
+    @State var gridItem: GifGridItem
     
     var body: some View {
         ZStack {
@@ -18,7 +18,7 @@ struct SingleGifView: View {
                 if let data = gridItem.gifData, !gridItem.gifData!.isEmpty {
                     NavigationLink(destination: ExportShareView(gifs: gifs, gridItem: gridItem)) {
                         GIFImage(data: data)
-                            .scaledToFill()
+                            .scaledToFit()
                             .frame(width: geoProxy.size.width, height: geoProxy.size.height, alignment: .center)
                     }
                 }
@@ -44,7 +44,7 @@ struct SingleGifView: View {
 struct SingleGifView_Previews: PreviewProvider {
     static var previews: some View {
         let gifAPI = GIPHYAPIService()
-        SingleGifView(gridItem: GifGridItem.dataSample, gifs: GifViewModel())
+        SingleGifView(gifs: GifViewModel(), gridItem: GifGridItem.dataSample)
             .environmentObject(gifAPI)
     }
 }

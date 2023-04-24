@@ -12,8 +12,9 @@ import SwiftUI
 struct MosaicGridView: View {
     @EnvironmentObject var gifAPI: GIPHYAPIService
     @ObservedObject var gifs: GifViewModel
-    let columns: [Column]
     private var numOfColumns: Int = 2
+    let columns: [Column]
+    
     
     /// Customized init required to calculate elements layout inside of the mosaic grid
     init(gridItems: [GifGridItem], gifs: ObservedObject<GifViewModel> ) {
@@ -50,7 +51,7 @@ struct MosaicGridView: View {
             ForEach(columns) { column in
                 LazyVStack(spacing: 10) {
                     ForEach(column.gridItems) { gridItem in
-                        SingleGifView(gridItem: gridItem, gifs: gifs)
+                        SingleGifView(gifs: gifs, gridItem: gridItem)
                             .environmentObject(gifAPI)
                     }
                 }

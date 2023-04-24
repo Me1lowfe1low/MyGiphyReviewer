@@ -19,11 +19,6 @@ class UIGIFImage: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
-    convenience init(name: String) {
-        self.init()
-        initView()
-    }
-    
     convenience init(data: Data) {
         self.init()
         self.data = data
