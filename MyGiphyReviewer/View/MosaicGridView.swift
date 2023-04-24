@@ -12,45 +12,16 @@ import SwiftUI
 struct MosaicGridView: View {
     @EnvironmentObject var gifAPI: GIPHYAPIService
     @ObservedObject var gifs: GifViewModel
-    private var numOfColumns: Int = 2
-    let columns: [Column]
     
-    
-    /// Customized init required to calculate elements layout inside of the mosaic grid
-    init(gridItems: [GifGridItem], gifs: ObservedObject<GifViewModel> ) {
+    init(gifs: ObservedObject<GifViewModel>) {
         self._gifs = gifs
-        var columns = [Column]()
-        for _ in 0 ..< numOfColumns {
-            columns.append(Column())
-        }
-        
-        /// Needed for calculation of the smallest height of column
-        var columnsHeight = [CGFloat](repeating: 0, count: numOfColumns)
-        
-        /// Placing items in the grid with coplience to their sizes
-        for gridItem in gridItems {
-            var smallestColumnIndex = 0
-            var smallestHeight = columnsHeight[0]
-            for i in 1 ..< columnsHeight.count {
-                let currentHeight = columnsHeight[i]
-                if currentHeight < smallestHeight {
-                    smallestHeight = currentHeight
-                    smallestColumnIndex = i
-                }
-            }
-            
-            /// Increasing size of the column
-            columns[smallestColumnIndex].gridItems.append(gridItem)
-            columnsHeight[smallestColumnIndex] += gridItem.height
-        }
-        self.columns = columns
     }
     
     var body: some View {
         HStack(alignment: . top, spacing: 10) {
-            ForEach(columns) { column in
+            ForEach(gifs.columns, id: \.self) { column in
                 LazyVStack(spacing: 10) {
-                    ForEach(column.gridItems) { gridItem in
+                    ForEach(column.gridItems, id: \.self) { gridItem in
                         SingleGifView(gifs: gifs, gridItem: gridItem)
                             .environmentObject(gifAPI)
                     }
