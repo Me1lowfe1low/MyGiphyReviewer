@@ -18,6 +18,7 @@ struct ExportShareView: View {
     
     var body: some View {
         VStack {
+            Spacer()
             if let data = gridItem.gifData {
                 GIFImage(data: data)
                     .frame(maxWidth: UIScreen.main.bounds.width, maxHeight: UIScreen.main.bounds.width)
