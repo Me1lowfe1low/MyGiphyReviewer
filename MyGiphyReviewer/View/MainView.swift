@@ -42,20 +42,21 @@ struct MainView: View {
                             .task {
                                 Task {
                                     print("state: \(gifs.loadingState)")
-                                    print("Loading more data")
-                                    gifs.fetchRecords()
+                                    
+                                    gifs.improvedFetchRecords(loadMode: .mainLoad )
+                                    gifs.improvedFetchRecords(loadMode: .bufferLoad )
                                 }
                             }
                         case .isLoading:
                             ProgressView()
                                 .progressViewStyle(.circular)
+                                   
                         case .initialState:
                             Color.clear
                                 .task {
                                     Task {
                                         print("state: \(gifs.loadingState)")
-                                        print("Initial load")
-                                        gifs.fetchRecords()
+                                        gifs.improvedFetchRecords(loadMode: .bufferLoad )
                                     }
                                 }
                         case .allIsLoaded:
