@@ -25,6 +25,9 @@ class GifViewModel: ObservableObject {
     var columns = [Column](repeating: Column(), count: 2)
     var columnsHeight = [CGFloat](repeating: 0, count: 2)
     
+    var bufferColumns = [Column](repeating: Column(), count: 2)
+    var bufferColumnHeight = [CGFloat](repeating: 0, count: 2)
+    
     init(queryString: String = "",
          giphyAPI: GIPHYAPIService = GIPHYAPIService(),
          logger: Logger = Logger(subsystem: "MyGiphyReviewer", category: "GifViewModel"),
@@ -57,6 +60,7 @@ class GifViewModel: ObservableObject {
         logger.trace("state: \(self.loadingState.readableFormat), gridCount: \(self.gridItems.count), page: \(self.page)")
     }
 }
+
 
 
 extension GifViewModel {
@@ -165,6 +169,97 @@ extension GifViewModel {
             
         } catch let error {
             logger.error("Error: \(error.localizedDescription)")
+        }
+    }
+}
+
+
+enum FetchMode: Comparable {
+    case bufferLoad
+    case mainLoad
+    
+    var readableName: String {
+        switch self {
+            case .bufferLoad:
+                return "Buffering"
+            case .mainLoad:
+                return "Filling main destination"
+        }
+    }
+}
+
+
+extension GifViewModel {
+    func improvedFetchRecords(loadMode: FetchMode ) {
+        logger.trace("Current tab: \(self.endpoint.title), state: \(self.loadingState.readableFormat)")
+        guard self.loadingState == .readyForFetch || self.loadingState == .initialState else {
+            logger.trace("Inaprropriate state")
+            return
+        }
+        let url = buildURLRequest(endpoint: endpoint, for: searchObject)
+        logger.debug("\(url)")
+        
+        Task {
+            self.loadingState = .isLoading
+            logger.trace("Current state: \(self.loadingState.readableFormat)")
+            let fetchedData = await giphyAPI.fetchGifs(url: url)
+            var localColumns = (loadMode == .mainLoad) ? self.columns : [Column](repeating: Column(), count: 2)
+            if loadMode == .mainLoad {
+                localColumns[0].gridItems.append(contentsOf: self.bufferColumns[0].gridItems)
+                localColumns[1].gridItems.append(contentsOf: self.bufferColumns[1].gridItems)
+                self.bufferColumns = [Column](repeating: Column(), count: 2)
+            }
+           
+            await MainActor.run { [weak self] in
+                fetchedData.data.forEach { gifData in
+                    print(fetchedData.data)
+                    let randomHeight = CGFloat.random(in: 100 ... 300)
+                    let gifURL: String = giphyAPI.buildGIFURLString(for: gifData.id)
+                    //logger.debug("Current url: \(gifURL)")
+                    let tempGridItem = GifGridItem(index: self?.maxIndex ?? 0, height: randomHeight, gifURL: gifURL, gifGIPHYURL: gifData.url, gifID: gifData.id)
+                    self?.gridItems.append(tempGridItem)
+                    self?.maxIndex += 1
+                    self?.loadingState = (fetchedData.data.count == self?.limit) ? .readyForFetch : .allIsLoaded
+                    
+                    var smallestColumnIndex = 0
+                    
+                    guard var smallestHeight = self?.columnsHeight[0] else {
+                        return
+                    }
+                    
+                    for i in 1 ..< 2 {
+                        guard let currentHeight = self?.columnsHeight[i] else {
+                            return
+                        }
+                        if currentHeight <= smallestHeight {
+                            smallestHeight = currentHeight
+                            smallestColumnIndex = i
+                        }
+                    }
+                    /// Increasing size of the column
+                    localColumns[smallestColumnIndex].gridItems.append(tempGridItem)
+                    self?.columnsHeight[smallestColumnIndex] += tempGridItem.height
+                    
+                }
+                self?.page += 1
+                if loadMode == .mainLoad {
+                    self?.columns = localColumns
+                }
+                else {
+                    self?.bufferColumns = localColumns
+                }
+            }
+        }
+    }
+    
+    
+    func printColumn(_ columns: [Column]) {
+        var columnId = 0
+        columns.forEach { column in
+            column.gridItems.forEach { element in
+                print("columns: \(columnId),id: \(element.index), gifID: \(element.gifID)")
+            }
+            columnId += 1
         }
     }
 }
