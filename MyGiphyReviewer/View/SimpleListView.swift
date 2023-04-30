@@ -1,5 +1,5 @@
 // Created for MyGiphyReviewer on 19.04.2023
-//  MosaicGridView.swift
+//  SimpleListView.swift
 //  MyGiphyReviewer
 //
 //
@@ -7,25 +7,19 @@
 
 import SwiftUI
 
-/// MosaicGridView - view that shows elements in mosaic layout.
 ///  As input it requests - structure with gifs
-struct MosaicGridView: View {
+struct SimpleListView: View {
     @EnvironmentObject var gifAPI: GIPHYAPIService
     @ObservedObject var gifs: GifViewModel
     
     init(gifs: ObservedObject<GifViewModel>) {
         self._gifs = gifs
     }
-    
     var body: some View {
-        HStack(alignment: . top, spacing: 10) {
-            ForEach(gifs.columns, id: \.self) { column in
-                LazyVStack(spacing: 10) {
-                    ForEach(column.gridItems, id: \.self) { gridItem in
-                        SingleGifView(gifs: gifs, gridItem: gridItem)
-                            .environmentObject(gifAPI)
-                    }
-                }
+        LazyVStack(spacing: 10) {
+            ForEach(gifs.gridItems, id: \.self) { gridItem in
+                SingleGifView(gifs: gifs, gridItem: gridItem)
+                    .environmentObject(gifAPI)
             }
         }
     }

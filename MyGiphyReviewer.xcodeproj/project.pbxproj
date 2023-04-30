@@ -15,7 +15,7 @@
 		512764D329EFCB64009BD520 /* MyGiphyReviewerUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 512764D229EFCB64009BD520 /* MyGiphyReviewerUITests.swift */; };
 		512764D529EFCB64009BD520 /* MyGiphyReviewerUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 512764D429EFCB64009BD520 /* MyGiphyReviewerUITestsLaunchTests.swift */; };
 		512764E529EFDB66009BD520 /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 512764E429EFDB66009BD520 /* MainView.swift */; };
-		512764E729EFDEA8009BD520 /* MosaicGridView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 512764E629EFDEA8009BD520 /* MosaicGridView.swift */; };
+		512764E729EFDEA8009BD520 /* SimpleListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 512764E629EFDEA8009BD520 /* SimpleListView.swift */; };
 		512764EB29EFF6A9009BD520 /* GifGridItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 512764EA29EFF6A9009BD520 /* GifGridItem.swift */; };
 		512764ED29EFF6D6009BD520 /* Column.swift in Sources */ = {isa = PBXBuildFile; fileRef = 512764EC29EFF6D6009BD520 /* Column.swift */; };
 		515C2F5A29F2DFA100EA1EA4 /* ApiEndpointOption.swift in Sources */ = {isa = PBXBuildFile; fileRef = 515C2F5929F2DFA100EA1EA4 /* ApiEndpointOption.swift */; };
@@ -63,7 +63,7 @@
 		512764D229EFCB64009BD520 /* MyGiphyReviewerUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyGiphyReviewerUITests.swift; sourceTree = "<group>"; };
 		512764D429EFCB64009BD520 /* MyGiphyReviewerUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyGiphyReviewerUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		512764E429EFDB66009BD520 /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
-		512764E629EFDEA8009BD520 /* MosaicGridView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MosaicGridView.swift; sourceTree = "<group>"; };
+		512764E629EFDEA8009BD520 /* SimpleListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SimpleListView.swift; sourceTree = "<group>"; };
 		512764EA29EFF6A9009BD520 /* GifGridItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GifGridItem.swift; sourceTree = "<group>"; };
 		512764EC29EFF6D6009BD520 /* Column.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Column.swift; sourceTree = "<group>"; };
 		515C2F5929F2DFA100EA1EA4 /* ApiEndpointOption.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApiEndpointOption.swift; sourceTree = "<group>"; };
@@ -174,7 +174,7 @@
 			isa = PBXGroup;
 			children = (
 				512764E429EFDB66009BD520 /* MainView.swift */,
-				512764E629EFDEA8009BD520 /* MosaicGridView.swift */,
+				512764E629EFDEA8009BD520 /* SimpleListView.swift */,
 				5178E0F529F0049F00DC5357 /* SingleGifView.swift */,
 				5162318D29F17A1900D65942 /* ExportShareView.swift */,
 				5194EF7629F19F7100A9ED5A /* ButtonViewModifier.swift */,
@@ -357,7 +357,7 @@
 				5198232129F1D57F0041F40B /* LinksView.swift in Sources */,
 				5176675A29F46868003B3B35 /* LoadingState.swift in Sources */,
 				512764EB29EFF6A9009BD520 /* GifGridItem.swift in Sources */,
-				512764E729EFDEA8009BD520 /* MosaicGridView.swift in Sources */,
+				512764E729EFDEA8009BD520 /* SimpleListView.swift in Sources */,
 				515C2F5A29F2DFA100EA1EA4 /* ApiEndpointOption.swift in Sources */,
 				5178E10329F0516A00DC5357 /* GIFImage.swift in Sources */,
 				5176675C29F47E06003B3B35 /* URLDataModel.swift in Sources */,

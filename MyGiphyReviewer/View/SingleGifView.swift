@@ -20,6 +20,8 @@ struct SingleGifView: View {
                         GIFImage(data: data)
                             .scaledToFill()
                             .frame(width: geoProxy.size.width, height: geoProxy.size.height, alignment: .center)
+                            .foregroundColor(.black)
+                            .background(.red)
                     }
                 }
                 else {
